@@ -16,19 +16,19 @@
 小説だけではご飯を食べられないので、覆面ライターもやっています。せちがらい。
 
 で、覆面ライターの案件で\
-「元請さん…… Git と GitHub 使って仕事したいです……」\
+「クライアントさん… Git と GitHub 使って仕事したいです…」\
 って言ったら、使っていいということになりました。やったぜ。\
-でも元請さんは Git と GitHub の使い方をあんまり知らないので、片倉が入門書を書くことになりました。なんてこった。\
+でもクライアントさんは Git と GitHub の使い方をあんまり知らないので、片倉が入門書を書くことになりました。なんてこった。\
 
 この連載は、片倉がこれからの仕事で楽をするために始めました。\
-目標は、元請さんに Git と GitHub の使い方をひととおり覚えてもらい、記事の管理と校正・校閲をお任せできるようになるまでです。
+目標は、クライアントさんに Git と GitHub の使い方をひととおり覚えてもらい、記事の管理と校正・校閲をお任せできるようになるまでです。
 
 皆さんも、どうせ苦労するなら楽をするための苦労をしましょう。
 
 ## 1. 今回のゴール
 
 1. GitHub アカウントを取得する
-2. SourceTree をインストールする
+2. Sourcetree をインストールする
 3. リモートからリポジトリをクローンする
 
 以上です。ここまでできれば、あなたはとてもとてもえらい。
@@ -43,61 +43,61 @@
 
 メリットがわからないことには使う気になりませんよね。\
 わかります。今のままでいいんじゃね？という気持ち。とてもわかります。\
-ですが、一度 Git の使い方を覚えてしまうと、 Git を手放せなくなる程度には、コレがとても便利なんですね。\
+ですが、一度 Git の使い方を覚えてしまうと、 Git を手放せなくなる程度にはとても便利です。\
 （ちなみに Git はツールの名前、GitHub はサービスの名前です）
 
 まずはこちらをご覧ください。
 
-![SourceTreeOverView](Cap1_1-1_SourceTreeOverView.png)
+![SourcetreeOverView](Cap1_1-1_SourcetreeOverView.png)
 
-これは "PlanetsJournal_01.txt" という原稿がどのように変わっていったのか Git で記録し、 SourceTree というツールで見やすくしたものです。\
+これは、いまあなたが読んでいるこの記事が、どのように変わっていったのか Git で記録し、 Sourcetree というツールで見やすくしたものです。\
 上が最新で、下に行くほど古くなります。
 
-fixme: この記事の履歴を SourceTree で表示した方がいいかもしれない。
-
-### 2-1. 変更履歴の一覧
+### 2.1. 変更履歴の一覧
 
 「変更履歴の一覧」のエリアでは、変更ポイントを記録した履歴を、樹形図で閲覧できます。
 
-![SourceTreeCommitLog](./Cap1_1-2_SourceTreeCommitLog.png)
+![SourcetreeCommitLog](Cap1_1-2_SourcetreeCommitLog.png)
 
-最新の記録ポイントには「原稿の電書版」というタイトルが付いています。\
+最新の記録ポイントには「修正案を取り入れた」という見出しが付いています。\
 好きな変更ポイントをダブルクリックすると、その変更ポイントに記録されたファイルを復元することもできます。つまり、好きなタイミングでバックアップを取って、いつでも元に戻せるわけです。\
 最新版に戻したいときは、最新版の変更ポイントをダブルクリックするだけ。簡単でしょう？
 
-### 2-2. 変更の日時とか
+### 2.2. 変更の日時とか
 
 「変更の日時とか」のエリアでは、誰がいつ変更ポイントを記録したのか、どのような変更をしたのか、といった概要を閲覧できます。
 
-![SourceTreeCommitInfo](./Cap1_1-3_SourceTreeCommitInfo.png)
+![SourcetreeCommitInfo](Cap1_1-3_SourcetreeCommitInfo.png)
 
 図中に「コミット」とありますね。好きなタイミングで記録した変更ポイントのことを Git では「コミット（commit）」と呼びます。
 
-ここで突然ですがおめでとうございます！\
+突然ですが、おめでとうございます！\
 あなたは Git 用語をひとつ覚えました！えらい！！
 
 そう、コミット（commit）です。\
 コミットする（`git commit`）と言ったり、変更ポイントそのものを指してコミット（commit）と言ったりします。
 
-### 2-3. 具体的な変更内容
+### 2.3. 具体的な変更内容
 
 「具体的な変更内容」のエリアでは、どのように変更したのか、詳細を閲覧できます。赤いハイライトは古い内容、緑のハイライトは新しい内容です。差分を比較する、あるいは diff を取る、とも言います。
 
-![SourceTreeDiffView](Cap1_1-4_SourceTreeDiffView.png)
+![SourcetreeDiffView](Cap1_1-4_SourcetreeDiffView.png)
 
-……うーん、 SouceTree の表示はちょっとわかりにくいですね。画面端で折り返されていませんし、行単位でしか変更内容がわかりません。\
+… SouceTree の表示はちょっとわかりにくいですね。画面端で折り返されていませんし、行単位でしか変更箇所がわかりません。\
 というわけで、同じ部分を GitHub で表示してみましょう。
 
 ![GitHubDiffView](Cap1_1-5_GitHubDiffView.png)
 
 薄いハイライトは「変更の行」です。\
 濃いハイライトは「変更箇所」です。\
-SourceTree に比べるとかなりわかりやすいですね。\
+Sourcetree に比べるとかなりわかりやすいですね。\
 文字単位で変更箇所をピックアップしてくれると最高なのですが、現状は「ある程度の塊」をピックアップしてくれます。
 
 Git と GitHub は本来、ソフトウェアのバージョン管理に使うものです。\
 英語で書かれたテキストにはめっぽう強いのですが、日本語で書かれたテキストに対する差分比較機能は、ちょっと弱めです。\
-とはいえ、これがあるだけでも十分に便利です。
+もちろん、あると無いとでは大違いですけれど。
+
+### 2.4. GitHub での校正校閲についてもちょっとだけ
 
 さて、ひととおり、原稿を書き終えたとしましょう。\
 もちろん終わりではありませんね。文章は推敲して完成するものです。\
@@ -105,7 +105,12 @@ Git と GitHub は本来、ソフトウェアのバージョン管理に使う�
 そう、校正校閲です。\
 GitHub を使うと、校正校閲が爆速になります。体感ですが、10倍くらい速くなります。
 
-### 2-4 そろそろまとめて
+こんな感じで、原稿の内容を議論します。\
+（議論相手の acple は片倉に Git を教えてくれた物好きです）
+
+![GitHubConversation](Cap1_1-6_GitHubConversation.png)
+
+### 2.5. そろそろまとめて
 
 はい、まとめます。
 
@@ -116,12 +121,18 @@ GitHub を使うと、校正校閲が爆速になります。体感ですが、1
 
 - Git を使うと
   - コミットを積んでいくことで、原稿がどう変わっていったのかわかる。
-  - どれが原稿の最新版なのか、日付管理しなくてもハッキリわかる。 **<- 超重要！**
+  - どれが原稿の最新版なのか、ファイル名に日付を入れなくてもハッキリわかる。 **<- 超重要！**
   - いつでも好きなコミットの状態に戻すことができる。
   - 誰がそのコミットを積んだのかわかる。
   - 結果、バージョン管理がめちゃくちゃ楽になる。
 
-コミット、覚えてますか？好きなタイミングで変更を記録したポイントです。
+具体的な例を挙げると
+
+Qiita記事1-1_Ver1.2_片倉_最新版_Final_★これで最後★_2月6日acple指摘反映.docx\
+Qiita記事1-1_Ver1.2_片倉_最新版_Final_★これで最後★_2月6日片倉修正.docx
+Qiita記事1-1_Ver1.2_片倉_最新版_Final_2月6日Final_ Final_23時50分版.docx\
+
+みたいな地獄から解放されます。
 
 - さらに GitHub を使うと
   - 変更点に関して、必要に応じた濃さで議論できる。
@@ -131,14 +142,14 @@ GitHub を使うと、校正校閲が爆速になります。体感ですが、1
 
 どうでしょう？覚えたら便利だと思いませんか？
 
-### 2-5 Word とか Google Document じゃダメ？
+### 2.6. Word とか Google Document じゃダメ？
 
 一人で執筆するだけなら、 Word や Google Document で何も問題はありません。\
-一太郎も良いツールです。\
-ですが、バージョン管理と共同編集作業を同時にこなすとなると、 Word や Google Document では厳しくなります。
+一太郎も良いエディタです。片倉も一太郎をときどき使います。\
+ですが、バージョン管理と共同編集作業までこなすとなると、 Word や Google Document だけでは厳しくなります。\
 
 もう一度言います。\
-執筆するだけなら、何を使っても問題ありません。\
+**執筆するだけなら、何を使っても問題ありません。**\
 ただし、バージョン管理や共同編集作業にあたっては、それに適したツールを使いましょう、というお話しをしています。
 
 Word やら Google Document やら一太郎やらをさんざん使い倒してきた片倉が断言します。\
@@ -148,63 +159,164 @@ Word やら Google Document やら一太郎やらをさんざん使い倒して�
 ## 3. さあ Git と GitHub の準備をしよう
 
 お待たせしました。\
-実際に手を動かして、 Git と GitHub の世界に足を踏み入れましょう。
+いよいよ実際に手を動かして、 Git と GitHub の世界に足を踏み入れましょう。
 
-### 3-1 GitHub アカウントを取得する
+### 3.1. GitHub アカウントを取得する
 
-まずは GitHub アカウントを取得するところから始めましょう。
+まずは GitHub アカウントを取得するところから始めましょう。\
+英語サイトだからといって怖がらないでくださいね。\
+以下の3つがあれば大丈夫です。
 
-fixme: GitHub アカウントの取り方を解説
+- Username（ユーザーネーム）
+- Email address（メールアドレス）
+- Password（英数字記号を含めた15文字以上のパスワード）
 
-### 3-2 SourceTree をインストールする
+以下のリンクからアカウントを取得してください。\
+[Join GitHub · GitHub](https://github.com/join)
+
+よくあるアカウント取得の手順なので、詳細は割愛します。\
+画面の指示にしたがって進めてください。\
+ブラウザの翻訳機能を使ってもいいでしょう。
+
+なお、 GitHub にはいくつか料金プランがあります。\
+今回はフリープランを選びましょう。
+
+**Complete Setup** ボタンを押すと、認証用のメールが届きます。\
+メールに記載された **Verify email address** リンクを踏むことで、認証が完了します。
+
+「新しくリポジトリを作るかい？」と聞かれますが、今回は作らなくてOKです。
+
+最後に、プロフィールのアイコンだけ設定しておきましょう。
+
+GitHub ページの右上に、自動生成されたアイコンが表示されています。
+
+![GravidatorIcon](Cap1_1-8_GravatarIcon.png)
+
+ユニークなアイコンなのですが、誰なのかちょっとわかりづらいです。
+
+![GitHubSettings1](Cap1_1-9_GitHubSettings1.png)
+
+アイコンを選択して、プルダウンメニューから **Settings** を選びましょう。\
+こんな画面になるはずです。
+
+![GitHubSettings2](Cap1_1-10_GitHubSettings2.png)
+
+画面右に表示されたアイコンの **Edit** ボタンをクリックして **Upload a Photo** を選択します。\
+ご自身だとわかる画像を選択してください。\
+画像の選択が終わったら、画面のちょっと下のほうにある **Update profile** ボタンをクリックして終了です。
+
+2要素認証（Two-factor authentication）の設定は、必須ではありませんが、強く推奨します。\
+設定方法については\
+[2 要素認証を設定する - GitHub ヘルプ](https://help.github.com/ja/github/authenticating-to-github/configuring-two-factor-authentication)\
+をご覧下さい。
+
+以降、もっと細かい設定が必要になるときは、その都度記載します。
+
+### 3.2. Sourcetree をインストールする
 
 次は Git を PC にインストールしましょう！\
-……と言いたいところなのですが、単に Git をインストールして使うとなると、こんな感じの画面とにらめっこすることになります。
+…と言いたいところなのですが、単に Git をインストールして使うとなると、こんな感じの画面とにらめっこすることになります。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/PlanetsJournalSample (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/GitLecture4Writer (chapter1_1)
 $ git status
-On branch master
-Your branch is up to date with 'origin/master'.
+On branch chapter1_1
+Your branch is ahead of 'origin/chapter1_1' by 1 commit.
+  (use "git push" to publish your local commits)
 
-nothing to commit, working tree clean
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   Chapter1/Chapter1_1.md
 
-Ktkr@KtkrPC MINGW64 ~/Documents/PlanetsJournalSample (master)
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Ktkr@KtkrPC MINGW64 ~/Documents/GitLecture4Writer (chapter1_1)
 $ git fetch
 
-Ktkr@KtkrPC MINGW64 ~/Documents/PlanetsJournalSample (master)
-$ git graph
-* b8035ed (HEAD -> master, origin/master, origin/HEAD) 現行の電書版
-* 3384550 原稿Ver5.0
-* a88c6dc 原稿Ver3.0
-* 56a24b2 原稿Ver2.0
-* 11aaad2 Ver1.0の原稿
-* 3028c48 れどめ
-* 1f9c34b Initial commit
-
-Ktkr@KtkrPC MINGW64 ~/Documents/PlanetsJournalSample (master)
-$
+Ktkr@KtkrPC MINGW64 ~/Documents/GitLecture4Writer (chapter1_1)
+$ git log --oneline --graph --decorate --all
+* 6df55bc (origin/chapter1_1) 修正案を取り入れた。インスコ手順は別途。
+* d4d566d 最初の1歩を途中まで執筆。
+| * 351f258 (origin/overview, overview) 最初に最低限のインストールを書きます
+| * c19468a 全体構成の叩き台を作りました
+|/
+* a195fd3 (origin/master, origin/chapter1, origin/HEAD, master, chapter1) れどめを作成しました
+* 95b1576 Initial commit
 ```
 
-「ウッ」となりますね。僕もなりました。\
-プログラマな人たちが「カタカタッ、ターンッ」ってやるアレです。
+「ウッ」となりますね。片倉もなりました。\
+プログラマな人たちが「カタカタッ、ターンッ」ってやるアレです。 CUI（キャラクタ・ユーザ・インタフェース）といいます。\
+普段使っているアプリケーションはだいたい GUI（グラフィカル・ユーザ・インタフェース）とです。
 
-実のところ、慣れてしまえばこの CUI で操作したほうが楽です。\
-でも GUI に慣れきった人がいきなり CUI なんて使えるわけがありません。\
-というわけで、とっとと GUI で操作できる Git クライアントを導入しましょう。
+GUI に慣れきった人が、いきなり CUI なんて使えるわけがありません。\
+とっとと GUI で操作できる Git クライアントを導入しましょう。
 
-Git クライアントにも色々ありますが、この連載では SourceTree を使うことにします。\
-無料で利用でき、日本語化もスマートで、見た目も綺麗です。 Git の最新版も内蔵しています。
+GUI な Git クライアントは色々ありますが、この連載では Atlassian が提供している Sourcetree を利用していきます。
 
-「せっかくだから俺は最初から CUI で Git を操作するぜ！」というやる気勢のあなた。素晴らしい。感動しました。今後は SourceTree の操作と同時に CUI のコマンドも併記します。
+![SourcetreePlainView](Cap1_1-11_SourcetreePlainView.png)
 
-fixme: SourceTree のインストール方法を解説。\
-fixme: Git 単体のインストール方法を解説。
+コレです。\
+無料で利用でき、 Windows と Mac OS X の両方に対応していて、日本語化もスマートで、見た目も綺麗です。 Git の最新版も内蔵しています。
 
-無事にインストールできましたか？
+もちろん、別の Git クライアントを使っても問題ありません。\
+オススメの GUI な Git クライアントがあったら教えてください。
 
-素晴らしい。実は、ここまでたどり着ける人さえ少数派です。\
-「うーん……よくわかんない。今のままでいいや」という人は、とてもとても多いのです。\
+Sourcetree は以下のリンクからインストーラーをダウンロードしてください。\
+[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/Sourcetree)
+
+インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。\
+
+![SelectLogin](Cap1_1-12_Setup1.png)
+
+**Bitbucket** を選択してください。\
+ブラウザが起動し、 Atlassian アカウントの取得画面が出てきます。\
+Sourcetree の利用には Atlassian アカウントが必要です。
+
+![Setup2](Cap1_1-13_Setup2.png)
+
+画面下部の **Sign up for an account** から、 Atlassian アカウントを取得してください。\
+Google アカウントあるいは Microsoft アカウントでログインしてもOKです。
+
+ログインが完了すると、インストーラーの画面がこんな感じになります。
+
+![Setup3](Cap1_1-14_Setup3.png)
+
+**次へ** をクリックすると、ツールを選択したり設定したりする画面になります。
+
+![Setup4](Cap1_1-15_Setup4.png)
+
+- Mercurial は使わないのでチェックを外します。
+- 改行の自動処理を設定する（**推奨**）とありますが、これもチェックを外します（逆だろjk…）。
+- Configure Global Ignore もチェックを外します。
+
+**次へ** をクリックすると、 Git を操作するときの名前とメールアドレスを登録する画面になります。
+
+![Setup5](Cap1_1-16_Setup5.png)
+
+自動で入力されている内容で問題ありません。後から設定で変えられます。\
+欲を言えば、 GitHub に登録している名前・メールアドレスと合致していたほうが無難でしょう
+
+**次へ** をクリックすると、SSHキーを読みこむかどうか、というよくわからない質問ダイアログが出てきます。
+
+![Setup6](Cap1_1-17_Setup6.png)
+
+**いいえ** で問題ありません。\
+（※SSH 周りは次回解説します）
+
+![Setup7](Cap1_1-18_Setup7.png)
+
+この画面が出てくれば、 Sourcetree のインストールは完了です。
+
+どうですか？
+
+ほほう、無事にインストールできましたか。
+
+**素晴らしい。**
+
+実は、ここまでたどり着ける人さえ少数派です。\
+「うーん…よくわかんない。やーめた。今のままでいいや」\
+という人は、とてもとても多いのです。\
 最初はよくわからないでしょう。片倉もよくわかりませんでした。\
 ですが、大丈夫です。じっくり解説を読んで、手を動かせば、必ず覚えられます。
 
@@ -220,7 +332,7 @@ fixme: Git 単体のインストール方法を解説。
 - ローカルリポジトリ：あなたが編集するファイルとフォルダ
 - リモートリポジトリ：ローカルのデータを転送し、複数人で共有できる場所
 
-※ Git 警察の皆様およびリーナス様、ご着席ください。理解の促進を優先しています。
+※ 厳密ではありませんが、理解の促進を優先しています。
 
 「リモートからローカルへ、リポジトリをクローンする」\
 というのは、\
@@ -232,31 +344,63 @@ fixme: Git 単体のインストール方法を解説。
 「結果にコミットする」とか、そんな感じのあいまいな意識高い系レトリックではありません。\
 Git でコミットする（`git commit`）と言ったら、作業した内容を変更ポイントとして記録する、という具体的な操作を意味します。
 
-では実際にクローンしましょう。
+では、実際にクローンしましょう。
 
-fixme: https でリポジトリをクローンする方法を解説。
-fixme: コマンドの場合も併記
+Sourcetree の `clone` ボタンをクリックしてください。\
+こんな画面になります。
 
-無事にクローンできたら、 SourceTree にこんな感じの内容が表示されます。
+![Clone1](Cap1_1-19_Clone1.png)
 
-fixme: クローンした内容を表示。
-fixme: コマンドの場合も併記
+元のパス/URL:\
+という入力欄に、以下のURLをコピペしてください。\
+https://github.com/ktkraoichi/GitLecture4Writer.git
+
+コピペしたら、入力欄の外側を適当にクリックしてください。\
+なにやら Sourcetree がぐるぐる動き始めます。\
+じきに、 GitHub にログインするためのダイアログが出てきます。
+
+![Clone2](Cap1_1-20_Clone2.png)
+
+Sourcetree はあなたが取得した GitHub アカウントの情報を知りません。\
+さきほど取得したアカウントのメールアドレスとパスワードを教えてあげましょう。
+
+2要素認証を設定した人は、こんな画面も出てきます。
+
+![Clone3](Cap1_1-21_Clone3.png)
+
+ワンタイムパスワードを入力してください。
+
+GitHub の認証が通れば、次のような画面になります。
+
+![Clone4](Cap1_1-22_Clone4.png)
+
+**クローン** ボタンを押しましょう。\
+Sourcetree がリモートからローカルへ、リポジトリをクローンし始めます。
+
+無事にクローンできたら、 Sourcetree にこんな感じの内容が表示されます。
+
+![Clone5](Cap1_1-23_Clone5.png)
+※この画像は連載が進行すると変化します
 
 どうでしょう。できましたか？
 
-fixme: できないケースを想定して書く
-
 無事にクローンできたなら、とてもとても素晴らしいことです。\
-ご自分を褒めてあげてください。俺、よくやった！
+ご自分を褒めてあげてください。
 
-「Git をやってみよう」と思って勉強を始めた物書きさんのうち、おそらく100人中50人くらいはここまでで心が折れます。\
-ブラッドボーンのガスコイン神父くらいには初見殺しのハードルです（伝わらないモノの例え選手権一位）。\
-ですが、初見殺しは、しょせん初見殺しです。\
-ひとつずつ理解していけば撃破できます。
+さん、はい
 
-この連載は、片倉が元請さんに Git と GitHub の使い方を覚えてもらえるまで終われません。\
+**「俺、よくやった！」**
+
+リピート・アフター・ミー
+
+**「俺、よくやった！！」**
+
+本当にご自分を褒めてあげてくださいね。\
+「Git をやってみよう」と思って勉強を始めた物書きさんのうち、おそらく100人中70人くらいは、ここまでで心が折れます（多めに見積もっています）。
+
+この連載は、片倉がクライアントさんに Git と GitHub の使い方を覚えてもらえるまで終われません。\
 ここまでの解説で分からないことがあったら、コメントや Twitter で片倉宛に聞いてください。\
-元請さんは仕事用のチャットツールで僕に連絡してください。
+片倉のクライアントさんは仕事用のチャットツールで僕に連絡してください。
 
 ## 5. 次回の記事予告
 
@@ -266,7 +410,68 @@ fixme: できないケースを想定して書く
 - 自分のリポジトリをクローン（`git clone`）してみる
 - ローカルでコミット（`git commit`）してみる
 - ローカルの内容をリモートにプッシュ（`git push`）してみる
+  - プッシュするために SSH の設定をする
 
 の3点です。
 
 焦らず慌てず、ゆっくり勉強していきましょう。
+
+## 6. 付録
+
+### 6.1. コマンドでやりたい人へ
+
+「せっかくだから俺は最初から CUI で Git を操作するぜ！」\
+というやる気勢のあなた。素晴らしい。感動しました。今後は Sourcetree の操作と同時に CUI のコマンドも併記します。
+
+以下から、ご利用の OS に合わせて Git をインストールしてください。\
+[Git - Git のインストール](https://git-scm.com/book/ja/v2/%E4%BD%BF%E3%81%84%E5%A7%8B%E3%82%81%E3%82%8B-Git%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+
+Git と GitHub の設定については以下のドキュメントを参考にしてください。\
+[Git のセットアップ - GitHub ヘルプ](https://help.github.com/ja/github/getting-started-with-github/set-up-git)
+
+あなたなら Git と GitHub の設定までは、上記のドキュメントにしたがって進めていけるでしょう。
+
+設定が終わったら、まず
+
+`cd "ローカルリポジトリの作成先"`
+
+と入力してください。\
+Windows なら `cd Documents` でいいでしょう。
+
+次に
+
+`git clone https://github.com/ktkraoichi/GitLecture4Writer.git`
+
+と入力してください。\
+リポジトリのクローンが始まります。
+
+```bash
+$ git clone https://github.com/ktkraoichi/GitLecture4Writer.git
+Cloning into 'GitLecture4Writer'...
+remote: Enumerating objects: 25, done.
+remote: Counting objects: 100% (25/25), done.
+remote: Compressing objects: 100% (19/19), done.
+remote: Total 25 (delta 3), reused 19 (delta 3), pack-reused 0
+Unpacking objects: 100% (25/25), done.
+```
+
+このように表示されれば成功です。
+
+素晴らしい！
+
+### 6.2. Git の操作方法について
+
+この連載では GUI な Git クライアントとして Sourcetree を使うことにしています。\
+過去に片倉は GitKraken という GUI Git クライアントを使って Git を操作していました。
+
+GitKraken\
+[Free Git GUI Client - Windows, Mac & Linux | GitKraken](https://www.gitkraken.com/)
+
+UI は全部英語ですが、英語力ほぼゼロの片倉でも直感的に使えたくらいには洗練されています。\
+Windows, Mac OS X, Linux で動作します。\
+2019年6月から無償プランでは[プライベートリポジトリを利用できなくなってしまいました](https://forest.watch.impress.co.jp/docs/news/1191048.html)。\
+ザンネン。
+
+Git への理解を深めたら、折りを見て CUI に移行したほうがいいと思います。\
+慣れさえすれば、 Git の操作は CUI が最適です。\
+現在は Visual Studio Code の Source Control を使ったり、ターミナルで GitBash を開いてコマンドを叩いています。
