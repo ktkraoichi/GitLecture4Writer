@@ -39,6 +39,16 @@
 とっとと導入して手を動かしたい人はこちら\
 [3. さあ Git と GitHub の準備をしよう](#3-さあ-Git-と-GitHub-の準備をしよう)
 
+※ゴールに違和感を覚えた人へ\
+具体的には「え、初手で `git clone` なの？」「`git init` とか `git remote add` は？」と思ったあなたへ。
+
+- ローカルフォルダで `git init` して GitHub に リポジトリ作って `git remote add origin https://github.com/user/repo.git` して `git push match` する
+- GitHub にリポジトリ作って `git clone https//github.com/user/repo.git` する
+
+両者、得られる結果は同じです。\
+初学者にとってどちらが簡単かというと、 `git clone` です。\
+もちろん連載のどこかで `git init` から始まる方法も解説します。
+
 ## 2. Git と GitHub って何が便利なの？
 
 メリットがわからないことには使う気になりませんよね。\
