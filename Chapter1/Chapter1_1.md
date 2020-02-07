@@ -273,7 +273,7 @@ GUI な Git クライアントは色々ありますが、この連載では Atla
 オススメの GUI な Git クライアントがあったら教えてください。
 
 Sourcetree は以下のリンクからインストーラーをダウンロードしてください。\
-[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/Sourcetree)
+[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/sourcetree)
 
 インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。\
 
