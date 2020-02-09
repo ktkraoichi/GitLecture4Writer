@@ -52,7 +52,7 @@ Git を操作する入り口として「新しく手元に作る（`git init`）
 
 まずはこちらをご覧ください。
 
-![SourcetreeOverView](Cap1_1-1_SourcetreeOverView.png)
+![SourcetreeOverView](img/Cap1_1-1_SourcetreeOverView.png)
 
 これは、いまあなたが読んでいるこの記事が、どのように変わっていったのか Git で記録し、 [Sourcetree](https://www.atlassian.com/ja/software/sourcetree) というツールで見やすくしたものです。
 
@@ -64,7 +64,7 @@ Git で変更履歴を記録する、というのは、ゲームでいうとこ�
 「セーブデータの一覧」のエリアでは、セーブデータがどのように作られてきたのか、樹形図で閲覧できます。\
 上が最新で、下に行くほど古くなります。
 
-![SourcetreeCommitLog](Cap1_1-2_SourcetreeCommitLog.png)
+![SourcetreeCommitLog](img/Cap1_1-2_SourcetreeCommitLog.png)
 
 最新のセーブデータには「修正案を取り入れた」という見出しが付いています。\
 任意のセーブデータをダブルクリックすると、そのセーブデータに記録されたファイルを復元することもできます。つまり、好きなタイミングでバックアップを取って、いつでも元に戻せるわけです。\
@@ -74,7 +74,7 @@ Git で変更履歴を記録する、というのは、ゲームでいうとこ�
 
 「変更の日時とか」のエリアでは、誰がいつセーブデータを作成したのか、どのセーブデータから内容を変えたのか、といった概要を閲覧できます。
 
-![SourcetreeCommitInfo](Cap1_1-3_SourcetreeCommitInfo.png)
+![SourcetreeCommitInfo](img/Cap1_1-3_SourcetreeCommitInfo.png)
 
 図中に「コミット」とありますね。誰かが好きなタイミングで作ったセーブデータのことを Git では「コミット（commit）」と呼びます。
 
@@ -88,12 +88,12 @@ Git で変更履歴を記録する、というのは、ゲームでいうとこ�
 
 「具体的な変更内容」のエリアでは、選択したセーブデータとその直前のセーブデータとで、ファイルがどのように変わっているのか、詳細を閲覧できます。赤いハイライトは古い内容、緑のハイライトは新しい内容です。差分を比較する、あるいは diff を取る、とも言います。
 
-![SourcetreeDiffView](Cap1_1-4_SourcetreeDiffView.png)
+![SourcetreeDiffView](img/Cap1_1-4_SourcetreeDiffView.png)
 
 … SouceTree の表示はちょっとわかりにくいですね。画面端で折り返されていませんし、行単位でしか変更箇所がわかりません。\
 というわけで、同じ部分を GitHub で表示してみましょう。
 
-![GitHubDiffView](Cap1_1-5_GitHubDiffView.png)
+![GitHubDiffView](img/Cap1_1-5_GitHubDiffView.png)
 
 薄いハイライトは「変更の行」です。\
 濃いハイライトは「変更箇所」です。\
@@ -115,7 +115,7 @@ GitHub を使うと、校正校閲が爆速になります。体感ですが、1
 こんな感じで、原稿の内容を議論します。\
 （議論相手の acple は片倉に Git を教えてくれた物好きです）
 
-![GitHubConversation](Cap1_1-6_GitHubConversation.png)
+![GitHubConversation](img/Cap1_1-6_GitHubConversation.png)
 
 ### 2.6. そろそろまとめて
 
@@ -179,7 +179,7 @@ Word やら Google Document やら一太郎やらをさんざん使い倒して�
 - Password（英数字記号を含めた15文字以上のパスワード）
 
 以下のリンクからアカウントを取得してください。\
-[Join GitHub · GitHub](https://github.com/join)
+[Join GitHub · GitHub](img/https://github.com/join)
 
 よくあるアカウント取得の手順なので、詳細は割愛します。\
 画面の指示にしたがって進めてください。\
@@ -197,16 +197,16 @@ Word やら Google Document やら一太郎やらをさんざん使い倒して�
 
 GitHub ページの右上に、自動生成されたアイコンが表示されています。
 
-![GravidatorIcon](Cap1_1-8_GravatarIcon.png)
+![GravidatorIcon](img/Cap1_1-8_GravatarIcon.png)
 
 ユニークなアイコンなのですが、誰なのかちょっとわかりづらいです。
 
-![GitHubSettings1](Cap1_1-9_GitHubSettings1.png)
+![GitHubSettings1](img/Cap1_1-9_GitHubSettings1.png)
 
 アイコンを選択して、プルダウンメニューから **Settings** を選びましょう。\
 こんな画面になるはずです。
 
-![GitHubSettings2](Cap1_1-10_GitHubSettings2.png)
+![GitHubSettings2](img/Cap1_1-10_GitHubSettings2.png)
 
 画面右に表示されたアイコンの **Edit** ボタンをクリックして **Upload a Photo** を選択します。\
 ご自身だとわかる画像を選択してください。\
@@ -261,7 +261,7 @@ GUI に慣れきった人が、いきなり CLI なんて使えるわけがあ�
 
 GUI な Git クライアントは色々ありますが、この連載では Atlassian が提供している Sourcetree を利用していきます。
 
-![SourcetreePlainView](Cap1_1-11_SourcetreePlainView.png)
+![SourcetreePlainView](img/Cap1_1-11_SourcetreePlainView.png)
 
 コレです。\
 無料で利用でき、 Windows と Mac OS X の両方に対応していて、日本語化もスマートで、見た目も綺麗です。 Git の最新版も内蔵しています。
@@ -270,7 +270,7 @@ GUI な Git クライアントは色々ありますが、この連載では Atla
 オススメの GUI な Git クライアントがあったら教えてください。
 
 以下のリンクから Sourcetree のインストーラーをダウンロードしてください。\
-[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/sourcetree)
+[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](img/https://www.atlassian.com/ja/software/sourcetree)
 
 インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。\
 
@@ -280,18 +280,18 @@ GUI な Git クライアントは色々ありますが、この連載では Atla
 ブラウザが起動し、 Atlassian アカウントの取得画面が出てきます。\
 Sourcetree の利用には Atlassian アカウントが必要です。
 
-![Setup2](Cap1_1-13_Setup2.png)
+![Setup2](img/Cap1_1-13_Setup2.png)
 
 画面下部の **Sign up for an account** から、 Atlassian アカウントを取得してください。\
 Google アカウントあるいは Microsoft アカウントでログインしてもOKです。
 
 ログインが完了すると、インストーラーの画面がこんな感じになります。
 
-![Setup3](Cap1_1-14_Setup3.png)
+![Setup3](img/Cap1_1-14_Setup3.png)
 
 **次へ** をクリックすると、ツールを選択したり設定したりする画面になります。
 
-![Setup4](Cap1_1-15_Setup4.png)
+![Setup4](img/Cap1_1-15_Setup4.png)
 
 - Mercurial は使わないのでチェックを外します。
 - 改行の自動処理を設定する（**推奨**）とあります。これはチェックを入れます（でも LF -> CRLF って…逆だろjk…）。
@@ -299,19 +299,19 @@ Google アカウントあるいは Microsoft アカウントでログインし�
 
 **次へ** をクリックすると、 Git を操作するときの名前とメールアドレスを登録する画面になります。
 
-![Setup5](Cap1_1-16_Setup5.png)
+![Setup5](img/Cap1_1-16_Setup5.png)
 
 **GitHub に登録している名前・メールアドレスと一致させましょう。**\
 後から変更できますが、ここで一致させておいたほうが面倒が少なくて楽です。
 
 **次へ** をクリックすると、SSHキーを読みこむかどうか、というよくわからない質問ダイアログが出てきます。
 
-![Setup6](Cap1_1-17_Setup6.png)
+![Setup6](img/Cap1_1-17_Setup6.png)
 
 **いいえ** で問題ありません。\
 （※SSH 周りは次回解説します）
 
-![Setup7](Cap1_1-18_Setup7.png)
+![Setup7](img/Cap1_1-18_Setup7.png)
 
 この画面が出てくれば、 Sourcetree のインストールは完了です。
 
@@ -358,7 +358,7 @@ Git でコミットする（`git commit`）と言ったら、作業した内容�
 Sourcetree の `clone` ボタンをクリックしてください。\
 こんな画面になります。
 
-![Clone1](Cap1_1-19_Clone1.png)
+![Clone1](img/Cap1_1-19_Clone1.png)
 
 元のパス/URL:\
 という入力欄に、以下のURLをコピペしてください。\
@@ -368,27 +368,27 @@ https://github.com/ktkraoichi/GitLecture4Writer.git
 なにやら Sourcetree がぐるぐる動き始めます。\
 じきに、 GitHub にログインするためのダイアログが出てきます。
 
-![Clone2](Cap1_1-20_Clone2.png)
+![Clone2](img/Cap1_1-20_Clone2.png)
 
 Sourcetree はあなたが取得した GitHub アカウントの情報を知りません。\
 さきほど取得したアカウントのメールアドレスとパスワードを教えてあげましょう。
 
 2要素認証を設定した人は、こんな画面も出てきます。
 
-![Clone3](Cap1_1-21_Clone3.png)
+![Clone3](img/Cap1_1-21_Clone3.png)
 
 ワンタイムパスワードを入力してください。
 
 GitHub の認証が通れば、次のような画面になります。
 
-![Clone4](Cap1_1-22_Clone4.png)
+![Clone4](img/Cap1_1-22_Clone4.png)
 
 **クローン** ボタンを押しましょう。\
 Sourcetree がリモートからローカルへ、リポジトリをクローンし始めます。
 
 無事にクローンできたら、 Sourcetree にこんな感じの内容が表示されます。
 
-![Clone5](Cap1_1-23_Clone5.png)
+![Clone5](img/Cap1_1-23_Clone5.png)
 ※この画像は連載が進行すると変化します
 
 どうでしょう。できましたか？
@@ -504,24 +504,11 @@ $ cd Chapter1/
 
 Ktkr@KtkrPC MINGW64 ~/Documents/GitLecture4Writer/Chapter1 (master)
 $ ls
-Cap1_1-1_SourcetreeOverView.png    Cap1_1-21_Clone3.png
-Cap1_1-10_GitHubSettings2.png      Cap1_1-22_Clone4.png
-Cap1_1-11_SourcetreePlainView.png  Cap1_1-23_Clone5.png
-Cap1_1-12_Setup1.png               Cap1_1-24_Clone6.png
-Cap1_1-13_Setup2.png               Cap1_1-25_Clone7.png
-Cap1_1-14_Setup3.png               Cap1_1-3_SourcetreeCommitInfo.png
-Cap1_1-15_Setup4.png               Cap1_1-4_SourcetreeDiffView.png
-Cap1_1-16_Setup5.png               Cap1_1-5_GitHubDiffView.png
-Cap1_1-17_Setup6.png               Cap1_1-6_GitHubConversation.png
-Cap1_1-18_Setup7.png               Cap1_1-7_Welcome2GitHub.png
-Cap1_1-19_Clone1.png               Cap1_1-8_GravatarIcon.png
-Cap1_1-2_SourcetreeCommitLog.png   Cap1_1-9_GitHubSettings1.png
-Cap1_1-20_Clone2.png               Chapter1_1.md
+Chapter1_1.md  img
 ```
 
 **Chapter1_1.md** は、いまあなたが読んでいる記事そのものです。\
-ちょっと不思議な感じがしますね。\
-（画像ファイルの管理がガバです。じきに修正します）
+ちょっと不思議な感じがしますね。
 
 どうですか？ありましたか？
 
