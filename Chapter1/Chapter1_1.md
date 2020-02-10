@@ -18,7 +18,7 @@
 で、覆面ライターの案件で\
 「クライアントさん… Git と GitHub 使って仕事したいです…」\
 って言ったら、使っていいということになりました。やったぜ。\
-でもクライアントさんは Git と GitHub の使い方をあんまり知らないので、片倉が入門書を書くことになりました。なんてこった。\
+でもクライアントさんは Git と GitHub の使い方をあんまり知らないので、片倉が入門書を書くことになりました。なんてこった。
 
 この連載は、片倉がこれからの仕事で楽をするために始めました。\
 目標は、クライアントさんに Git と GitHub の使い方をひととおり覚えてもらい、記事の管理と校正・校閲をお任せできるようになるまでです。
@@ -179,7 +179,7 @@ Word やら Google Document やら一太郎やらをさんざん使い倒して�
 - Password（英数字記号を含めた15文字以上のパスワード）
 
 以下のリンクからアカウントを取得してください。\
-[Join GitHub · GitHub](img/https://github.com/join)
+[Join GitHub · GitHub](https://github.com/join)
 
 よくあるアカウント取得の手順なので、詳細は割愛します。\
 画面の指示にしたがって進めてください。\
@@ -270,7 +270,7 @@ GUI な Git クライアントは色々ありますが、この連載では Atla
 オススメの GUI な Git クライアントがあったら教えてください。
 
 以下のリンクから Sourcetree のインストーラーをダウンロードしてください。\
-[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](img/https://www.atlassian.com/ja/software/sourcetree)
+[Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/sourcetree)
 
 インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。\
 
@@ -526,4 +526,5 @@ Git への理解を深めたら、折りを見て CLI に移行したほうが�
 
 はい。パブリックリポジトリを `clone` する場合、 GitHub アカウントの情報は必須ではありません。\
 ですが、次回の記事ですぐ必要になるため取得してもらいました。\
-Atlassian アカウントのユーザ名とメールアドレスが一致するよう
+Atlassian アカウントのユーザ名とメールアドレスが一致するようにしてもらったのも、後の作業を楽にするためです。\
+ご了承ください。
