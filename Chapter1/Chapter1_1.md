@@ -272,7 +272,7 @@ GUI な Git クライアントは色々ありますが、この連載では Atla
 以下のリンクから Sourcetree のインストーラーをダウンロードしてください。\
 [Sourcetree - 無料の Git &amp; Mercurial クライアント | Atlassian](https://www.atlassian.com/ja/software/sourcetree)
 
-インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。\
+インストーラーを起動すると、 **Bitbucket Server** か **Bitbucket** のどちらかにログインしてください、と言われます。
 
 ![SelectLogin](img/Cap1_1-12_Setup1.png)
 
@@ -342,6 +342,7 @@ Google アカウントあるいは Microsoft アカウントでログインし�
 ※ 厳密ではありませんが、理解の促進を優先しています。
 
 ![Repository](img/Cap1_1-26_Repository.png)
+※この概念図も厳密ではありませんが、理解の促進を優先しています。
 
 「リモートからローカルへ、リポジトリをクローンする」\
 というのは、\
@@ -432,7 +433,7 @@ Git と GitHub の設定については以下のドキュメントを参考に�
 
 あなたなら Git と GitHub の設定までは、上記のドキュメントにしたがって進めていけるでしょう。
 
-設定が終わったら Git Bash を起動して、
+設定が終わったら Windows なら Git Bash を起動、 Mac OS X ならターミナルを起動して
 
 `cd "ローカルリポジトリの作成先"`
 
@@ -527,3 +528,10 @@ Git への理解を深めたら、折りを見て CLI に移行したほうが�
 はい。パブリックリポジトリを `clone` する場合、 GitHub アカウントの情報は必須ではありません。\
 ですが、次回の記事ですぐ必要になるため取得してもらいました。\
 Atlassian アカウントのユーザ名とメールアドレスが一致するようにしてもらったのも、後の作業を楽にするためです。
+
+## 監修
+
+@acple@github
+
+- C#チョットデキル
+- Git完全に理解してる
