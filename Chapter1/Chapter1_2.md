@@ -180,7 +180,7 @@ GitBash かターミナルを起動して、リポジトリをクローンする
 
 `git clone "さっきコピーしたURL"`
 
-例： `git clone https://github.com/ktkraoichi/SSSprints.git`
+例： `git clone https://github.com/ktkraoichi/FaultofTheDreakEquation.git`
 
 クローン作業が始まり…
 
@@ -203,8 +203,8 @@ Ktkr@KtkrPC MINGW64 ~
 $ cd Documents
 
 Ktkr@KtkrPC MINGW64 ~/Documents
-$ git clone https://github.com/ktkraoichi/SSSprints.git
-Cloning into 'SSSprints'...
+$ git clone https://github.com/ktkraoichi/FaultofTheDreakEquation.git
+Cloning into 'FaultofTheDreakEquation'...
 remote: Enumerating objects: 3, done.
 remote: Counting objects: 100% (3/3), done.
 remote: Compressing objects: 100% (2/2), done.
@@ -219,13 +219,13 @@ $
 
 ```bash
 Ktkr@KtkrPC MINGW64 ~/Documents
-$ cd SSSprints
-
-Ktkr@KtkrPC MINGW64 ~/Documents/SSSprints (master)
+$ cd FaultofTheDreakEquation
+@
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
 $ ls -a
 .  ..  .git  README.md
 
-Ktkr@KtkrPC MINGW64 ~/Documents/SSSprints (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
 $
 ```
 
@@ -235,8 +235,8 @@ $
 ※ vim は GitBash や Mac OS X に標準でインストールされているテキストエディタです。
 
 ```vim
-# SSSprints
-即興(S)小説(S)スプリントのリポジトリ
+# FaultofTheDreakEquation
+Nが2になった日の原稿管理リポジトリ
 ~
 ~
 ~
@@ -250,8 +250,8 @@ $
 ~
 ~
 ~
-README.md [unix] (16:09 15/02/2020)                                                                                                         1,1 全て
-"README.md" [unix] 2L, 64C
+README.md [unix] (12:51 17/02/2020)                                                                                                                 1,1 全て
+"README.md" [unix] 2L, 77C                          
 ```
 
 こんな感じです。
