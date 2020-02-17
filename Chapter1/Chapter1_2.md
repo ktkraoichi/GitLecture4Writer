@@ -25,24 +25,11 @@
 卒論とか修論とかを書いているそこのあなた、いまからでも遅くないですよ。\
 いやマジでマジで。
 
-## 2. `fetch` と `pull` をしてみよう
-
-いきなり今回のゴールから逸れますが、前回の記事で `clone` した「GitLecture4Writer」のローカルリポジトリを更新してみましょう。
-
-fixme: 以降の章を書いてから `fetch` と `pull` をしてもらう。\
-fixme: 狙いは「こんな感じになることを目指そうな」という遠いゴールを示すこと。
-
-最終的に、皆さんがこのような樹形図を作り、内容を理解できるようになることが、この記事の目標です。
-
-安心してください、片倉はひととおり覚えるまでに4ヶ月かかりました。\
-早い人は1ヶ月かからないでしょうが、学ぶペースは人それぞれです。\
-ゆっくりとやっていきましょう。
-
 ## 3. GitHub にプライベートリポジトリを作ってクローンする
 
-それでは本題のゴールへ向かいましょう。
+これから「プライベートリポジトリ」というリモートリポジトリを作成します。
 
-これから作成するプライベートリポジトリは、**あなただけ**がアクセスできるリポジトリです。\
+プライベートリポジトリは、**あなただけ**がアクセスできるリモートリポジトリです。\
 外部の誰かに見られることはありません。安心して使ってください。
 
 まず、プライベートリポジトリにどんなファイルを置くか決めましょう。\
@@ -289,17 +276,14 @@ fixme が消えて、本文が書かれています。
 
 図の真ん中、樹形図のエリアも見てみましょう。\
 「説明」という列に書かれているテキストを「コミットメッセージ」と呼びます。\
-コミットメッセージは、いわばセーブデータに付け加えるメモ書きです。どんな作業をしたのかを書いておくと、履歴を見渡すときに便利です。
+コミットメッセージは、セーブデータに付け加えるメモです。どんな作業をしたのかを書いておくと、履歴を見渡すときに便利です。
 
 必要に応じて「何をした」「何字書いた」とコミットメッセージに書けば、より具体的な進捗状況を記録できます。\
 ※「何字書いた」というのは、ちょっと工夫すると自動的にコミットメッセージへ追加できます。できますが、設定ファイルをいじる必要があるので今回は見送ります。
 
 校正・校閲の段階では、修正の概要と理由をコミットメッセージに記載することで、その修正を検討したり、元に戻したりできます。
 
-いまはまだ学び始めたばかりです。\
-あまり難しいことはせず、ひたすらコミットを積んでいきましょう。
-
-### 4.1 実際にコミットを作ろう
+### 4.1 そのファイル、テキストですか？
 
 それでは、あなたの手でコミットを作成しましょう。
 
@@ -323,45 +307,583 @@ Git は中身がテキストであるファイル（広義のテキストファ�
 マークダウン記法とは、手軽に文章を装飾できる書き方です。\
 参考：[Markdown記法 &middot; 日本語Markdownユーザー会](https://www.markdown.jp/syntax/)
 
-テキストデータを準備したら、クローンしたリポジトリに放り込みましょう。
+### 4.2 実際にコミットを作ろう
 
-fixme: SSSprint に放り込むテキストデータを作ってスクショを撮影
+テキストデータを準備したら、クローンしたリポジトリのフォルダに放り込みましょう。\
+ぽいっとな。
 
-fixme: CLI 操作の人は `git status` を手癖にするように指導。これは GUI でいまの状態がどうなっているのか確認するのと同じこと。
+![TextFile4Commit](/Chapter1/img/Cap1_2-15_TextFile4Commit.png)
 
-### 4.2 いつコミットすればいいのか（コミット粒度）
+**StoryText.txt** と **MemoText.txt** が、これから Git でバージョンを管理したいファイルです。\
+（厳密には .git フォルダがあるフォルダ以下、全てが Git の管理下に入ります）
 
-fixme: コミット粒度については詳しめに解説します
+ここからは Sourcetree の操作と CLI の操作を併記します。\
+Sourcetree で行っている操作は、 CLI の操作で再現できるからです。
 
-fixme: --amend オプションも解説していいかも（Sourcetree にあれば）
+Sourcetree を使っている人は、Sourcetree を起動しましょう。\
+CLI 操作の人は、 GitBash かターミナルを開きましょう。
+
+Sourcetree を使っている人は、この記事の最初に作ったリポジトリのタブを選択しましょう。\
+CLI 操作の人は、この記事の最初に作ったリポジトリの内部へ移動しましょう。\
+`cd "クローンしたリポジトリのフォルダ"`
+
+```bash
+ktkr@KtkrPC MINGW64 ~
+cd Documents/FaultofTheDreakEquation/
+```
+
+Sourcetree を使っている人は、**コミットされていない変更があります**というメッセージを「確認」できます。\
+樹形図が表示されていない場合、左側のカラムにある「History」をクリックしてください。
+
+![GitStatus](img/Cap1_2-16_GitStatus.png)
+
+CLI 操作の人は、 `git status` で現在の状態を「確認」できます。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        MemoText.txt
+        StoryText.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+`git status` によって「コミットされていない変更があります」というメッセージを確認できましたね。\
+より正確には
+
+- 以下のファイルは Git の追跡対象になっていないよ
+  - MemoText.txt
+  - StoryText.txt
+
+と言っています。\
+`git status` は「Sourcetree を見てリポジトリの状態を確認する」のと同等の操作です。
+
+状態を確認したら、次にコミットするファイルを選択します。
+Sourcetree なら画面下部にある「作業ツリーのファイル」からコミットするファイルを選び、「選択をインデックスに追加」します。
+
+![GitAdd1](img/Cap1_2-17_GitAdd.png)
+
+CLI なら `git add "ファイルパス"` でコミットするファイルを選択します。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git add StoryText.txt
+```
+
+Sourcetree の場合、コミットへ追加する対象に選ばれたファイルは「Index にステージしたファイル」へ移動します。
+
+![StagedFile](img/Cap1_2-18_StagedFile.png)
+
+CLI の場合、コミットへ追加する対象に選ばれたファイルは「Changes to be committed:」の所に表示されます。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   StoryText.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        MemoText.txt
+```
+
+より正確には
+
+- 以下のファイルがコミットに向けて追加されたよ
+  - 新しいファイル：StoryText.txt
+- 以下のファイルは Git の追跡対象になっていないよ
+  - MemoText.txt
+
+と言っています。
+
+全てのファイルをコミットへ追加する対象に選ぶなら、 Sourcetree の「全てインデックスに追加」ボタンを押せば一発です。
+
+![GitAddAll](img/Cap1_2-19_GitAddAll.png)
+
+CLI の場合、`git add .` と入力すれば一発です。\
+`.` （ドット）を忘れないでくださいね。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git add .
+```
+
+全てのファイルを追加すると、 Sourcetree ではこんな画面になります。
+
+![StagedFileAll](img/Cap1_2-20_StagedFileAll.png)
+
+CLI の場合、 `git status` で同等の状態になっているかどうか確認します。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   MemoText.txt
+        new file:   StoryText.txt
+```
+
+それでは、いよいよコミットしましょう。\
+Sourcetree の場合、左上の、丸に十字の「コミット」ボタンをクリックします。\
+画面下部にコミットメッセージを書きこむ欄が出現します。
+
+![WriteCommitMessage](img/Cap1_2-21_WriteCommitMessage.png)
+
+**1行目は樹形図の一覧に掲載されます**。簡潔に作業内容を記載しましょう。\
+**2行目は空行にしてください**。\
+2行目を空行にすると、3行目以降は補足的なメッセージと認識されます。
+
+![WroteCommitMessage](img/Cap1_2-22_WroteCommitMessage.png)
+
+コミットメッセージを確認して、内容に間違いがなければ右下の「コミット」ボタンをクリックします。
+
+無事にコミットの作成が終わると、樹形図に新たなコミットが現れます。
+
+![Committed](img/Cap1_2-23_Committed.png)
+
+CLI の場合、 `git commit` と入力することでコミットの作成が始まります。\
+まず、コミットメッセージを編集するためのテキストエディタが起動します。デフォルトでは vim が起動します。
+
+```vim
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up to date with 'origin/master'.
+#
+# Changes to be committed:
+#       new file:   MemoText.txt
+#       new file:   StoryText.txt
+#
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+<ltofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)1,0-1 全て
+```
+
+vim が起動しただけではコミットメッセージを編集できません。\
+`i` キーを押すと `--挿入--` モードになります。\
+もし左上に「い」と表示されたら、日本語入力モードがオンになっています。日本語入力モードをオフにしてください。
+
+```vim
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up to date with 'origin/master'.
+#
+# Changes to be committed:
+#       new file:   MemoText.txt
+#       new file:   StoryText.txt
+#
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+<aultofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)1,1 全て
+-- 挿入 --
+```
+
+画面下部に「--挿入--」と出たら、編集できます。\
+コミットメッセージを入力しましょう。
+
+**1行目がメインのコミットメッセージと見なされます**。簡潔に作業内容を記載しましょう。\
+**2行目は空行にしてください**。\
+2行目を空行にすると、3行目以降は補足的なメッセージと認識されます。
+
+```vim
+書き出し。ファーストコンタクト。
+
+人物を早出ししていきたいところ。
+山吹色ってトパーズだっけ？
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Your branch is up to date with 'origin/master'.
+#
+# Changes to be committed:
+#       new file:   MemoText.txt
+#       new file:   StoryText.txt
+#
+~
+~
+~
+~
+~
+~
+~
+~
+<ofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)4,40-27 全て
+-- 挿入 --
+```
+
+コミットメッセージを書き終えたら、 `ESC` キーで挿入モードを終了します。\
+`:w` と入力するとコミットメッセージが保存されます。\
+`:q` と入力するとコミットメッセージの編集を終了します。
+
+もし左上に全角文字で「：ｗ」などと表示されたら、日本語入力モードがオンになっています。オフにしましょう。
+
+無事にコミットの作成が終わると、こんな感じのログになります。
+
+```bash
+ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git commit
+[master d59c9c7] 書き出し。ファーストコンタクト。
+ 2 files changed, 67 insertions(+)
+ create mode 100644 MemoText.txt
+ create mode 100644 StoryText.txt
+```
+
+最後に、リポジトリの状態を確認しましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+**nothing to commit, working tree clean** と表示されていれば、コミットするべき変更はありません。\
+これはつまり、何かの手違いで「見えているファイル」を削除してしまったり、見えているファイルを下手に変更してしまったりしても、 Git のコミットから復元できる、ということです。
+
+セーブデータを作ってゲームを進め、失敗したらセーブデータからロードしてやり直す。\
+どうでしょう？　Git って、実はそんなに難しくないと思いませんか？
+
+なお、今後、 `git status` は何かにつけて叩くコマンドです。\
+Sourcetree を含む多くの GUI ツールは自動的に状態（ステータス）を更新しますが、 CLI で状態を確認するためにはユーザーが更新を指示しなければいけません。\
+何かやる前に、とりあえず `git status` です。 Sourcetree を起動したりウィンドウを切り替えてアクティブにすることと、 `git status` を打つことは等価です。**手癖にしましょう**。
+
+### 4.2 コミットをどんどん積んでいく
+
+コミットの作り方は分かりましたね？\
+ざっと手順を箇条書きにします。
+
+1. 原稿を編集して上書き保存する
+2. Sourcetree で状態を確認する（`git status`）
+3. 変更したファイルを全てステージする（`git add .`）
+4. ステージした内容を確認する（`git status`）
+5. コミットメッセージを作成する
+6. コミットする（`git commit` -> vim でコミットメッセージを編集）
+
+当面は、これらの作業を繰り返すだけで十分です。\
+コミットメッセージをちゃんと書いておけば、以下のような疑問が浮かんだときにも、樹形図（コミットログ）を追いかけることでだいたい解決します。
+
+> 「どのくらい進んだんだっけ」\
+> 「あのときどんな文章を書いたっけ」\
+> 「あの変更ってどこだったっけ」\
+> 「どうして変更したんだっけ」
+
+![CommitTree](img/Cap1_2-24_CommitTree.png)
+
+こんな感じです。
+
+CLI で操作している人は `git log` コマンドでコミットログを確認できます。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git log
+commit c8d60535c808908fd8957ab5acea87c05cd96491 (HEAD -> master)
+Author: ktkraoichi <ktkrao1@gmail.com>
+Date:   Mon Feb 17 16:10:21 2020 +0900
+
+    朝ご飯を作って食べるシーン
+
+commit b73526b0cd804b34c39966fd907480219f159272
+Author: ktkraoichi <ktkrao1@gmail.com>
+Date:   Mon Feb 17 16:08:38 2020 +0900
+
+    リチャードがディアァを口説くシーン
+
+commit 5f9aec4ebe6809f1b7c5c7c3d07bd88496348200
+Author: ktkraoichi <ktkrao1@gmail.com>
+Date:   Mon Feb 17 16:07:13 2020 +0900
+
+    出会い -> 移動
+```
+
+スマートに表示したいときは、次のようなオプションを付けましょう。
+
+`git log --oneline`
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git log --oneline --decorate
+c8d6053 (HEAD -> master) 朝ご飯を作って食べるシーン
+b73526b リチャードがディアァを口説くシーン
+5f9aec4 出会い -> 移動
+e71cb84 師弟ズの出会いを書いた
+bc2451e 全部書き直し。一人称で書くことにした。
+72c960b 序盤の表現をちまちま修正
+a23bf9c 会話と描写を追記。今後の展開をメモした。
+de8b1ca 有機ポリシランを生成することにした。他、動作や描写を追加。
+d59c9c7 書き出し。ファーストコンタクト。
+485950e (origin/master, origin/HEAD) Initial commit
+```
+
+あるコミットと別のコミットの差分を見たいときは `git diff` コマンドを使います。
+
+`git diff <コミットID> <コミットID>`\
+コミットIDは `git log --oneline` で表示した "c8d6053" とか "b73526b" とかの、16進数で表記された番号のことです。
+
+![GitDiff](img/Cap1_2-25_GitDiff.png)
+
+`q` キーで diff の確認を打ち切れます。
+
+…これは…ちょっと分かりづらいですね。\
+Git が最初から持っている差分比較機能は、日本語の文章に対しては弱めです。この点については Sourcetree の差分比較機能も同じです。\
+もっとイケてる感じの差分比較ツールをコマンドから利用することもできますが、これは次回に譲ります。
+
+ひとまず、どんどんコミットを積みましょう。
+
+### 4.3 いつコミットすればいいのか（コミット粒度）
+
+コミットをどんどこ積んでいくと、そのうち「いつコミットすればいいんだろう？」という疑問が浮かぶことでしょう。\
+これは「コミット粒度」といって、プログラマな人たちの間でもわりと話題になります。ときどき戦争が起こります。
+
+文章の執筆に限れば、片倉は次のような感じでいいのではないかと考えています。
+
+- 基本思想：元に戻したくなるタイミングでコミットする
+  - 例1：その日の執筆分をコミットする
+  - 例2：シーンやエピソードの区切りがついたらコミットする
+  - 例3：表記揺れをひとつ統一したらコミットする
+
+コミットは作業内容のセーブデータです。\
+ゲームをプレイするとき、セーブデータは「ここからリスタートしたいな」というタイミングでセーブしますよね？\
+具体的には、ボス直前だったり、なにかのギミックをクリアしたり、ゲームに疲れて中断するときだったり。
+
+ソースコードの場合は、プログラムの挙動に影響を与えるのでコミット粒度をよくよく考えなければいけません。
+
+ですが、文章執筆におけるコミット粒度は人それぞれ。\
+慎重な人はこまめにセーブするでしょうし、面倒くさがる人はプレイを終える前だけセーブするでしょう。\
+いずれにせよ、後悔しないタイミングでコミットすればよい、と片倉は思います。\
+ただし、コミットメッセージは後から探しやすいようにしましょうね。
+
+「文章執筆ならこんなコミット粒度がいいよ！」というご意見がありましたら、ぜひコメントに書き込んでください。参考にします。
 
 ## 5. プライベートリポジトリにローカルリポジトリの内容をプッシュする
 
-fixme: プッシュ（`git push`）について書きます
+長くなりましたが、やっと最後です。\
+もうちょっと頑張りましょう。
 
-fixme: https だと `push` のたびに GitHub 認証を通す必要があります。何度も認証を通すのは面倒なので、 SSH について多めに紙幅を割きます。
+コミットは、ローカルリポジトリに対して行う操作です。\
+ローカルでヤベー操作をしたり、お使いのパソコンが爆発したりすると、いままで積み上げてきたコミットはオシャカになります。ご破算です。頑張って書いてきた卒論や修論はイチから書き直しです。
 
-fixme: SSH についてはざっくり「鍵穴（公開鍵）」と「鍵（秘密鍵）」という感じで説明します。鍵を見せたり無くしたりするのは絶対ダメですよ、ということも含めます。RSAで作成して、長さは4096にしておけばいいでしょう。Sourcetree のSSH鍵管理ツールが 2048 だとダメって言ってた気がします。長さがダメなのかRSAがダメなのかは検証します。
+嫌ですね。怖いですね。
 
-fixme: 当分はいい感じのところでコミットしてリモートにぽいぽいするだけで十分ということを書きましょう
+というわけで、冒頭で作成した GitHub のプライベートリポジトリに、ローカルリポジトリのコミットをプッシュしましょう。\
+はい、わけわからん横文字がわんさか並んで分かりづらいですね。
+
+要するに、セーブデータのバックアップを GitHub に置く、ということです。\
+イマドキのゲーム機にもありますよね、オンラインバックアップ機能。
+
+Git では、セーブデータのバックアップをネットに置くことを「プッシュ（push）」と呼びます。\
+※厳密ではありませんが理解の促進を優先しています。
+
+まずは状態を確認しましょう。\
+Sourcetree の画面はこんな感じです。
+
+![CommitTree](img/Cap1_2-24_CommitTree.png)
+
+CLI で操作している人は `git log --oneline` で確認しましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git log --oneline
+c8d6053 (HEAD -> master) 朝ご飯を作って食べるシーン
+b73526b リチャードがディアァを口説くシーン
+5f9aec4 出会い -> 移動
+e71cb84 師弟ズの出会いを書いた
+bc2451e 全部書き直し。一人称で書くことにした。
+72c960b 序盤の表現をちまちま修正
+a23bf9c 会話と描写を追記。今後の展開をメモした。
+de8b1ca 有機ポリシランを生成することにした。他、動作や描写を追加。
+d59c9c7 書き出し。ファーストコンタクト。
+485950e (origin/master, origin/HEAD) Initial commit
+```
+
+`master` というラベルが、樹形図の先頭にある「朝ご飯を食べるシーン」というコミットにくっついていますね。\
+これはローカルリポジトリの先頭にあるコミットです。
+
+`origin/master` というラベルはというと「Initial commit」というコミットにくっついています。\
+`origin` というのはリモートリポジトリのことです。\
+つまり、リモートリポジトリには**まだ「Initial commit」というコミットしか存在しません**。
+
+リモートリポジトリは、ローカルリポジトリに比べて「遅れて」います。
+
+ローカルリポジトリのコミットをリモートリポジトリにプッシュすることで、ローカルリポジトリとリモートリポジトリの内容が一致します。
+
+「じゃあさっそくプッシュボタンを押そうぜ！」\
+「じゃあさっそく `git push` しようぜ！」
+
+**ダメです。**
+
+Sourcetree を使っている人は「フェッチ」ボタンをクリックしてください。\
+オプションの「すべてのリモートからフェッチ」にチェックを入れてください。
+
+CLI で操作している人は `git fetch --all` と入力してください。\
+※ `--all` を付けているのは Sourcetree の操作と合わせるためです
+
+![GitFetchAll](img/Cap1_2-26_GitFetchAll.png)
+
+何も起きない？　大変結構。
+
+フェッチ（`fetch`）とは、リモートリポジトリの最新情報をローカルへ持ってくることです。\
+一人で Git を運用しているぶんには、フェッチしても（だいたい）何も起きません。\
+ですが、複数人で Git を運用していると、リモートに他の誰かのコミットが新しく積まれている可能性があります。\
+（たまに並行世界の自分が別のPCからコミットを積んでいたりします）
+
+フェッチすることで「他の誰かのコミットが存在する or 存在しない」ことを確認できます。
+
+もしリモートに他の誰かのコミットが存在するなら、どのコミットを優先するのか決める必要があります。\
+優先するコミットを決めたのち、ちょいとややこしい操作をしてからプッシュする必要があります。\
+いままで覚えた操作の通りにやっていれば99％何も起きないので、ややこしい操作については別の機会に譲ります。\
+ですが、今のうちにリモートの状態を確認する「フェッチ」を手癖にしておきましょう。
+
+フェッチして何も起きなかったら、安心してプッシュできます。
+
+Sourcetree を使っている人は丸に↑の字の「プッシュ」ボタンをクリックしてください。
+
+![GitPush](img/Cap1_2-27_GitPush.png)
+
+今のところ `master` というブランチだけのはずなので、諸々の項目は特に気にしなくて大丈夫です。\
+「プッシュ」ボタンをクリックしましょう。
+
+Sourcetree がぐるぐる動き…
+
+![GitPushed](img/Cap1_2-28_GitPushed.png)
+
+完了したら、変化した樹形図にご注目。\
+`master` と `origin/master` というラベルが同じコミットに付いていたら、プッシュは無事に完了です。
+
+CLI で操作している人は、 `git push` と打ちます。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 9 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git fetch --all
+Fetching origin
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$ git push
+Enumerating objects: 29, done.
+Counting objects: 100% (29/29), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (28/28), done.
+Writing objects: 100% (28/28), 29.08 KiB | 561.00 KiB/s, done.
+Total 28 (delta 14), reused 0 (delta 0)
+remote: Resolving deltas: 100% (14/14), done.
+To https://github.com/ktkraoichi/FaultofTheDreakEquation.git
+   485950e..c8d6053  master -> master
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+$
+```
+
+`git status` は手癖ですよ、手癖。\
+`git push` する前には必ず `git fetch --all`。\
+大丈夫なことを確認できたら `git push` してもよろしい。
+
+これで、ローカルでヤベー操作をしても、お使いのPCが爆発しても大丈夫。\
+リモートからリポジトリを引っ張ってくれば元通りになります。
+
+無事にプッシュまで完了しましたか？\
+ローカルの `master` と、リモートの `origin/master` のラベルは同じ位置にありますか？
+
+大丈夫なことを確認できたら、あなたはとてもとても凄い！\
+自分を褒めましょう！　なにせここまでで2万字くらいあります！\
+読破して、手を動かしただけでも凄い！\
+無事に終えられたなら、もっともっと凄い！
+
+これで変更履歴を確認できますし、いきなりPCが爆発しても大丈夫です。\
+誰が何を変更したのか分かりますし、手元のファイルが壊れてもリモートから引っ張ってくれば元通りです。
+
+Git と GitHub の威力が本当に発揮されるのはもう少し先ですが、
+
+- リモートリポジトリを作り
+- コミットして
+- プッシュする
+
+という基本ができるようになったことはとても喜ばしいことです。\
+どんどんコミットして、どんどんプッシュしましょう！\
+（`git status` と `git fetch --all` はターミナル開いたらとりあえず打ちましょう）
+
+### 5.1 Sourcetree に「コミットをすぐにプッシュする」ってあるけど…
+
+これのことですね？
+
+![CommitAndPushImmediately](img/Cap1_2-29_CommitAndPushImmediately.png)
+
+**ダメです**。
+
+`fetch` していないから、という理由は説明しましたね。
+
+他にも「ローカルでコミットをいじる」という作業をするとき、何も考えずにリモートへぽいぽい `push` していると、後で「強制的にリモートを書き換える（フォースプッシュ）」という作業をしなければいけません。\
+リスクを理解したうえで強制的にリモートを書き換えるなら自己責任でどうぞ、という話になりますが、フォースプッシュが癖になるのはダメです。
+
+なので、コミットと同時にプッシュするのは**ダメです**。
 
 ## 6. 次回予告
 
-fixme: やれる方針が3つくらいあるので、どうしようか悩み中
+これであなたは Git を利用するメリットを少し受けられるようになりました。
 
-1. GitHub で簡単な校正校閲をする
-   1. issue に原稿へのパーマリンクを貼って議論する、という形が無難か
-   2. Contributor の設定とかにも言及する
-   3. もちろん Pull request で議論するほうが良いが、まだブランチの説明をしていないので無理
-2. `restore`, `rebase` など、履歴の活用について解説する
-   1. master にひたすら積む間も、この2つのコマンドは使うことが多いだろう
-   2. いずれにせよ Sourcetree で使える機能に絞る（Sourcetree のヘビーユーザーにちょっと話を聞かせてもらう？）
-   3. `stash` はブランチを切り替えるときの一時退避として使うイメージ、そもそも多用するコマンドではないと考える
-   4. とりあえず `commit` しておいて、後で `rebase` したほうがいい
-3. 既存のフォルダを Git 管理下に置いてリモートに投げる、というのもアリ？
-   1. つまり `git init` です
-   2. `git init` するなら `git config` にも触れたいよね
-   3. Sourcetree ならローカルフォルダを指定するだけで勝手に色々やってくれそう（やったことがない）
+次はブランチの操作に取り組みましょう！\
+ブランチとプルリクを駆使して爆速校正ライフを手に入れましょう！
+
+…と言いたいところなのですが、まずはローカルの状態を確認して、コミットして、リモートの状態を確認して、プッシュする、という作業に慣れてください。\
+CLI で操作している人は `git status` で状態を確認することもお忘れなく。
+
+Sourcetree だろうと CLI だろうとフェッチを怠らないように。
+
+次回は
+
+1. `restore` で過去のファイルを掘り起こしてみる
+2. `rebase` で複数のコミットをひとつにまとめる
+3. ちょっとしたミスを `git commit --amend` で書き換えてしまう
+4. 便利な差分比較ツールの紹介
+
+の4点です。
+
+ローカルのコミットを閲覧したり、ちょいといじったりする、 Tips をメインに解説していきます。
 
 ## 7. 付録
 
@@ -378,7 +900,40 @@ Pandoc については多くの方が使い方を紹介しています。ググ�
 - 先達による「Pandoc User’s Guide」の日本語訳\
   [Pandoc ユーザーズガイド 日本語版 - Japanese Pandoc User's Association](http://sky-y.github.io/site-pandoc-jp/users-guide/)
 
-fixme: `git status` は手癖にしなさい、という話とか（とても大事）
+Pandoc わかんないって人に向けて
+
+- GitHub とかでマークダウンファイルのプレビューを見る
+- プレビューから必要な範囲をコピーする
+- Word に貼りつける
+- 整形する
+
+という力技もご紹介しておきます。\
+あんまりオススメしません。
+
+### 7.2 えー、ブランチの解説してよ
+
+ライターの〆切が迫っている ＆ 確定申告に着手さえしていない\
+というヤバい状況なので、解説の負担が大きい「ブランチ」についてはもう少し先にさせてください。\
+スミマセン…
+
+- Git の本質は差分比較機能付きのデータベースである
+- データベースの実装がハッシュツリーである
+- ブランチとはコミットに付いたラベルである
+
+といった話も含めてやるので、図とか作るのに時間がかかるのです。\
+ご容赦。
+
+### 7.3 あれ、 SSH の解説やるって…
+
+すみません。
+一旦 GitHub の認証を通したら `push` するときも認証いらないんでした。\
+https 認証を滅多に使わないので忘れてました。
+
+で、 SSH なんですが、そもそも扱いがちょいとデリケートです。\
+Git の本質からは外れる、ということもありますので、手空きになったら取り扱います。
+
+- 先達の良記事\
+  [お前らのSSH Keysの作り方は間違っている](https://qiita.com/suthio/items/2760e4cff0e185fe2db9)
 
 ## 監修
 
