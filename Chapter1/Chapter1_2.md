@@ -761,7 +761,7 @@ d59c9c7 書き出し。ファーストコンタクト。
 
 `git diff <コミットID> <コミットID>`
 
-コミットIDは `git log --oneline` で表示した "c8d6053" とか "b73526b" とかの、16進数で表記された番号のことです。
+コミット ID は `git log --oneline` で表示した "c8d6053" とか "b73526b" とかの、16進数で表記された番号のことです。
 
 ![GitDiff](img/Cap1_2-25_GitDiff.png)
 
