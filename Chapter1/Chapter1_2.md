@@ -67,7 +67,7 @@ Git を利用した管理に向くのは、何度も変更がかかるテキス�
 
 上図のリポジトリは、片倉だけがアクセスできるリポジトリです。\
 試しに\
-[https://github.com/ktkraoichi/FaultofTheDreakEquation](https://github.com/ktkraoichi/FaultofTheDreakEquation)\
+[https://github.com/ktkraoichi/FaultofTheDrakeEquation](https://github.com/ktkraoichi/FaultofTheDrakeEquation)\
 へアクセスしてみてください。
 
 ![404NotFound](img/Cap1_2-30_404NotFound.png)
@@ -189,7 +189,7 @@ GitBash かターミナルを起動して、リポジトリをクローンする
 
 `git clone "さっきコピーしたURL"`
 
-例： `git clone https://github.com/ktkraoichi/FaultofTheDreakEquation.git`\
+例： `git clone https://github.com/ktkraoichi/FaultofTheDrakeEquation.git`\
 ※この例をコピペしてもエラーになりますよ
 
 クローン作業が始まり…
@@ -210,8 +210,8 @@ GitHub に登録したユーザー名とパスワードを入力しましょう�
 
 ```bash
 Ktkr@KtkrPC MINGW64 ~/Documents
-$ git clone https://github.com/ktkraoichi/FaultofTheDreakEquation.git
-Cloning into 'FaultofTheDreakEquation'...
+$ git clone https://github.com/ktkraoichi/FaultofTheDrakeEquation.git
+Cloning into 'FaultofTheDrakeEquation'...
 remote: Enumerating objects: 3, done.
 remote: Counting objects: 100% (3/3), done.
 remote: Compressing objects: 100% (2/2), done.
@@ -228,19 +228,19 @@ $
 
 ```bash
 $ git show
-commit 485950ec21fbce48f3dd210c94da5c2a58cc29e4 (HEAD -> master)
+commit 42c439617602dc971755af17aa3022da4b72d58e (HEAD -> master, origin/master, origin/HEAD)
 Author: ktkraoichi <ktkrao1@gmail.com>
-Date:   Mon Feb 17 12:49:18 2020 +0900
+Date:   Fri Feb 21 14:30:35 2020 +0900
 
     Initial commit <- コミットメッセージ
 
 diff --git a/README.md b/README.md
 new file mode 100644
-index 0000000..dbc45d6
+index 0000000..515c34d
 --- /dev/null
 +++ b/README.md
 @@ -0,0 +1,2 @@
-+# FaultofTheDreakEquation <- リポジトリの名前
++# FaultofTheDrakeEquation <- リポジトリの名前
 +Nが2になった日の原稿管理リポジトリ <- Description
 ```
 
@@ -363,7 +363,7 @@ CLI 操作の人は、 `git status` で現在の状態を「確認」できま�
 前提としてファイルやフォルダが何も変更されていないときは、次のように表示されます。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git status
 On branch master
 Your branch is up to date with 'origin/master'.
@@ -381,7 +381,7 @@ Sourcetree を含む多くの GUI ツールは常に最新の状態を表示し�
 今回はファイルをリポジトリに追加したので、次のように表示されます。
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git status
 On branch master
 Your branch is up to date with 'origin/master'.
@@ -429,7 +429,7 @@ Sourcetree で実施した操作と同じですね。
 `git add "ファイルパス" "ファイルパス" ... "ファイルパス"`
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git add StoryText.txt
 ```
 
@@ -440,7 +440,7 @@ Sourcetree の場合、インデックスに追加されたファイルは「Ind
 CLI の場合、インデックスに追加されたファイルは「Changes to be committed:」の所に表示されます。
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git status
 On branch master
 Your branch is up to date with 'origin/master'.
@@ -471,7 +471,7 @@ CLI の場合、 .git フォルダがある場所で `git add .` と入力すれ
 `.` （ドット）を指示すると、 Git は「カレントディレクトリ以下の、全ての変更をコミットへ追加する対象にする」と解釈します。
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git add .
 ```
 
@@ -482,8 +482,7 @@ $ git add .
 CLI の場合、 `git status` で同等の状態になっているかどうか確認します。
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
-$ git status
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 On branch master
 Your branch is up to date with 'origin/master'.
 
@@ -565,7 +564,8 @@ Git とテキストエディタの関連付けについては他の記事に譲�
 ~
 ~
 ~
-<ltofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)1,0-1 全て
+<FaultofTheDrakeEquation/.git/COMMIT_EDITMSG [unix] (15:10 21/02/2020)1,0-1 全て
+<ments/FaultofTheDrakeEquation/.git/COMMIT_EDITMSG" [unix] 11L, 293C
 ```
 
 vim が起動しただけではコミットメッセージを編集できません。\
@@ -594,7 +594,7 @@ vim が起動しただけではコミットメッセージを編集できませ�
 ~
 ~
 ~
-<aultofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)1,1 全て
+<s/FaultofTheDrakeEquation/.git/COMMIT_EDITMSG [unix] (15:10 21/02/2020)1,1 全て
 -- 挿入 --
 ```
 
@@ -628,7 +628,7 @@ vim が起動しただけではコミットメッセージを編集できませ�
 ~
 ~
 ~
-<ofTheDreakEquation/.git/COMMIT_EDITMSG[+] [unix] (15:22 17/02/2020)4,40-27 全て
+<ofTheDrakeEquation/.git/COMMIT_EDITMSG[+] [unix] (15:10 21/02/2020)4,40-27 全て
 -- 挿入 --
 ```
 
@@ -639,9 +639,9 @@ vim が起動しただけではコミットメッセージを編集できませ�
 エディタが閉じられ、無事にコミットの作成が終わると、こんな感じのログになります。
 
 ```bash
-ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git commit
-[master d59c9c7] 書き出し。ファーストコンタクト。
+[master cae2f6f] 書き出し。ファーストコンタクト。
  2 files changed, 67 insertions(+)
  create mode 100644 MemoText.txt
  create mode 100644 StoryText.txt
@@ -650,7 +650,7 @@ $ git commit
 最後に、リポジトリの状態を確認しましょう。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git status
 On branch master
 Your branch is ahead of 'origin/master' by 1 commit.
@@ -692,23 +692,23 @@ nothing to commit, working tree clean
 CLI で操作している人は `git log` コマンドでコミットログを確認できます。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git log
-commit c8d60535c808908fd8957ab5acea87c05cd96491 (HEAD -> master)
+commit 0aae598a00fc8cee266aee8d8f55f88c9bf81010 (HEAD -> master)
 Author: ktkraoichi <ktkrao1@gmail.com>
-Date:   Mon Feb 17 16:10:21 2020 +0900
+Date:   Fri Feb 21 15:26:11 2020 +0900
 
     朝ご飯を作って食べるシーン
 
-commit b73526b0cd804b34c39966fd907480219f159272
+commit a6f7fdad9546b0dbe9d2fcc728d662947f9acc13
 Author: ktkraoichi <ktkrao1@gmail.com>
-Date:   Mon Feb 17 16:08:38 2020 +0900
+Date:   Fri Feb 21 15:24:58 2020 +0900
 
     リチャードがディアァを口説くシーン
 
-commit 5f9aec4ebe6809f1b7c5c7c3d07bd88496348200
+commit d602f63dd1dcebe39793ccba89a400d8fa7b02c5
 Author: ktkraoichi <ktkrao1@gmail.com>
-Date:   Mon Feb 17 16:07:13 2020 +0900
+Date:   Fri Feb 21 15:23:47 2020 +0900
 
     出会い -> 移動
 ```
@@ -718,18 +718,18 @@ Date:   Mon Feb 17 16:07:13 2020 +0900
 `git log --oneline`
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
-$ git log --oneline --decorate
-c8d6053 (HEAD -> master) 朝ご飯を作って食べるシーン
-b73526b リチャードがディアァを口説くシーン
-5f9aec4 出会い -> 移動
-e71cb84 師弟ズの出会いを書いた
-bc2451e 全部書き直し。一人称で書くことにした。
-72c960b 序盤の表現をちまちま修正
-a23bf9c 会話と描写を追記。今後の展開をメモした。
-de8b1ca 有機ポリシランを生成することにした。他、動作や描写を追加。
-d59c9c7 書き出し。ファーストコンタクト。
-485950e (origin/master, origin/HEAD) Initial commit
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline
+0aae598 (HEAD -> master) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 (origin/master, origin/HEAD) Initial commit
 ```
 
 ### 3.3 いつコミットすればいいのか（コミット粒度）
@@ -763,7 +763,7 @@ d59c9c7 書き出し。ファーストコンタクト。
 
 `git diff <コミットID> <コミットID>`
 
-コミット ID は `git log --oneline` で表示した "c8d6053" とか "b73526b" とかの、16進数で表記された番号のことです。
+コミット ID は `git log --oneline` で表示した "a6f7fda" とか "4f493c1" とかの、16進数で表記された番号のことです。
 
 ![GitDiff](img/Cap1_2-25_GitDiff.png)
 
@@ -810,18 +810,18 @@ Sourcetree の画面はこんな感じです。
 CLI で操作している人は `git log --oneline` で確認しましょう。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git log --oneline
-c8d6053 (HEAD -> master) 朝ご飯を作って食べるシーン
-b73526b リチャードがディアァを口説くシーン
-5f9aec4 出会い -> 移動
-e71cb84 師弟ズの出会いを書いた
-bc2451e 全部書き直し。一人称で書くことにした。
-72c960b 序盤の表現をちまちま修正
-a23bf9c 会話と描写を追記。今後の展開をメモした。
-de8b1ca 有機ポリシランを生成することにした。他、動作や描写を追加。
-d59c9c7 書き出し。ファーストコンタクト。
-485950e (origin/master, origin/HEAD) Initial commit
+0aae598 (HEAD -> master) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 (origin/master, origin/HEAD) Initial commit
 ```
 
 `master` というラベルが、樹形図の先頭にある「朝ご飯を食べるシーン」というコミットにくっついていますね。\
@@ -854,7 +854,7 @@ Sourcetree がぐるぐる動き…
 CLI で操作している人は、 `git push` と打ちます。
 
 ```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git status
 On branch master
 Your branch is ahead of 'origin/master' by 9 commits.
@@ -862,19 +862,19 @@ Your branch is ahead of 'origin/master' by 9 commits.
 
 nothing to commit, working tree clean
 
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git push
 Enumerating objects: 29, done.
 Counting objects: 100% (29/29), done.
 Delta compression using up to 4 threads
 Compressing objects: 100% (28/28), done.
-Writing objects: 100% (28/28), 29.08 KiB | 561.00 KiB/s, done.
+Writing objects: 100% (28/28), 29.07 KiB | 676.00 KiB/s, done.
 Total 28 (delta 14), reused 0 (delta 0)
 remote: Resolving deltas: 100% (14/14), done.
-To https://github.com/ktkraoichi/FaultofTheDreakEquation.git
-   485950e..c8d6053  master -> master
+To https://github.com/ktkraoichi/FaultofTheDrakeEquation.git
+   42c4396..0aae598  master -> master
 
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDreakEquation (master)
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $
 ```
 
