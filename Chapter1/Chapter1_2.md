@@ -176,7 +176,7 @@ GitBash かターミナルを起動して、リポジトリをクローンする
 
 ![GitHubCloneURL](img/Cap1_2-6_GitHubCloneURL.png)
 
-緑色のボタン、 **Clone or download** をクリックすると、プライベートリポジトリのURLが表示されます。\
+緑色のボタン、 **Clone or download** をクリックすると、プライベートリポジトリの URL が表示されます。\
 **Clone with HTTPS** になっていることを確認してください。\
 もし **Clone with SSH** になっていたら、 Use HTTPS と書かれたリンクをクリックしてください。
 
