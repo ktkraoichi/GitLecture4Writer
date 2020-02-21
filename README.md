@@ -10,7 +10,8 @@
 
 ## 現在の記事一覧
 
-[1-1 「Git と GitHub を使うメリット」](https://github.com/ktkraoichi/GitLecture4Writer/blob/master/Chapter1/Chapter1_1.md)
+[1-1 「Git と GitHub を使うメリット」](Chapter1/Chapter1_1.md)
+[1-2 「コミットを積み上げる」](Chapter1/Chapter1_2.md)
 
 ## ライセンス
 
