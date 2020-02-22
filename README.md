@@ -10,8 +10,15 @@
 
 ## 現在の記事一覧
 
-- [1-1 「Git と GitHub を使うメリット」](Chapter1/Chapter1_1.md)
-- [1-2 「コミットを積み上げる」](Chapter1/Chapter1_2.md)
+- 1-1 「Git と GitHub を使うメリット」
+  - [この Repo](Chapter1/Chapter1_1.md)
+  - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/6b31644e4832882310d8)
+- 1-2 「コミットを積み上げる」
+  - [この Repo](Chapter1/Chapter1_2.md)
+  - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/1c60e7eba1ec9c570518)
+- 1-3「コミットの修正や差分比較ツール」
+  - このRepo : 3月初旬。コミット積んどいてください。
+  - Qiita 掲載判 : 3月初旬。コミット積んどいてください。
 
 ## ライセンス
 
