@@ -262,6 +262,105 @@ A. [ガベージコレクション](#72-git-のガベージコレクション)�
 あまりに `--amend` で書き換えまくると、変更履歴が残る、という Git の利便性が失われてしまいます。\
 誤字脱字等のごく軽微な修正や、コミットメッセージの修正くらいにとどめましょう。
 
+### 3.2 リモートにプッシュしようとしたらエラー出た
+
+これのことですね？
+
+![PushError](img/Cap1_3-9_PushError.png)
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git push
+To https://github.com/ktkraoichi/FaultofTheDrakeEquation.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/ktkraoichi/FaultofTheDrakeEquation.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+既にリモートリポジトリへプッシュしているコミットを `--amend` で置き換えてしまうと、再度プッシュするときエラーになります。\
+前回「コミットと同時にプッシュという操作はしないほうがいい」と解説した理由のひとつが、このエラーを事前に回避するためです。
+
+リモート「お前が『最新です』と言って送ってきたコミット、うちで面倒を見ている最新のコミットより**古い**。勘定が合わないから却下。どうにかして（いくつかヒント）」\
+と怒られています（意訳）。
+
+Sourcetree で操作している人は樹形図をよく見てください。
+
+![CommitLog](img/Cap1_3-10_CommitLog.png)
+
+CLI 操作の人は `git log --oneline` だけだとちょっとわかりづらいので、さらに `--graph` というオプションと `--all` というオプションを付けましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline --all --graph
+* 4dbab1f (HEAD -> master) 朝ご飯を作って食べるシーン
+| * f93a844 (origin/master, origin/HEAD) 朝ご飯を作って食べるシーン
+|/
+* a6f7fda リチャードがディアァを口説くシーン
+* d602f63 出会い -> 移動
+* 4f493c1 師弟ズの出会いを書いた
+* b57992b 全部書き直し。一人称で書くことにした。
+* 92196f4 序盤の表現をちまちま修正
+* 47f42c2 会話と描写を追記。今後の展開をメモした。
+* d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+* cae2f6f 書き出し。ファーストコンタクト。
+* 42c4396 Initial commit
+```
+
+分岐していますね。
+
+樹形図、あるいはログを見ながら、リモートリポジトリの立場になって考えてみましょう。\
+ローカルから転送（プッシュ）されてくるコミットは、**今見ている最新のコミットを親とするコミット**のはずです。\
+今回の例でいうと f93a844 のコミットを親とするコミットがプッシュされるはずです。\
+ところがどっこい、 `--amend` で置き換えたコミットは、今見ている最新のコミットよりひとつ前、 a6f7fda のコミットを親とします。\
+よって、リモートは「そのコミットは**古い**。お前のやっていることはおかしい可能性がある。却下」と突っぱねるわけです。
+
+樹形図、あるいは `git log --oneline --all --graph` で表示されたものをよく観察してください。\
+origin という字面のラベルが付いているコミットがリモートにもあるコミットです。
+
+解決策はいくつかありますが、現在の運用であれば強制的にプッシュしてしまうのが手っ取り早いでしょう。
+
+Sourcetree の場合、（賢明なことに）デフォルトでは強制プッシュできないように設定してあります。
+
+![DeniedPush-f](img/Cap1_3-11_DeniedForcePush.png)
+
+強制プッシュできるようにするためには、ツールバーから\
+ツール -> オプション\
+を選び、次のような設定画面を出します。
+
+![SourcetreeSettings](img/Cap1_3-12_SourcetreeSettings.png)
+
+「強制プッシュを有効にする」と「安全な強制プッシュを使用する」の両方にチェックを入れてください。\
+設定画面を閉じ、プッシュボタンを押すと…
+
+![AllowedForcePush](img/Cap1_3-13_AllowedForcePush.png)
+
+強制プッシュできるようになっています。\
+プッシュしようとすると…
+
+![AreYouOkey?](img/Cap1_3-14_RUOK.png)
+
+警告が表示されます。\
+リモートに存在するコミットがたどれなくなる＝破壊的な操作をする\
+ということです。\
+本当によいのなら「はい」を押しましょう。\
+プッシュが始まり、だいたいなにごともなく完了します。\
+Sourcetree の樹形図で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
+CLI 操作の人は `git push --force-with-lease` で強制プッシュします。\
+CLI 操作の場合、 `--force-with-lease` オプションを付けても**特に警告などは出ません**。\
+もう一度言います。\
+`git push --force-with-lease` に限らず、 CLI 操作の場合、基本的に**事前の警告は期待できません**。
+
+`--force-with-lease` オプションを明示的に付けている時点で\
+「オッケー、操作の意味は分かってるってことだよな」\
+というわけです。
+
+だいたいなにごともなく完了します。\
+`git log --oneline --all --graph` で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
 ## 4. 過去のコミットからファイルを取り出す
 
 fixme: restore について解説します
