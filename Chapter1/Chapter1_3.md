@@ -287,7 +287,7 @@ A. 便利な差分比較ツールを使えばいい
 
 環境が Windows なら、おそらく [WinMerge](https://winmerge.org/?lang=ja) が現時点で最強のツールでしょう（異議は認めるのでコメント欄へどうぞ）。
 
-fixme: WinMerge の使用感について、スクショを貼るなりして解説
+#### 5.1.1. Sourcetree の設定
 
 Sourcetree では「外部 Diff ツール」を設定してあげることで、 WinMerge を利用した差分比較ができます。
 
@@ -297,7 +297,159 @@ fixme: 実際にDiffを見る方法を書く（`Ctrl + D` でも起動できる�
 
 CLI では Git の設定を変更することで、 WinMerge を利用した差分比較ができます。
 
-fixme: WinMerge の設定方法を書く
+fixme: WinMerge のインスコ手順は…書かなくてもいいか？
+
+Sourcetree を使っている人は ツールバー -> ツール -> オプション を開いてください。
+
+![SourcetreeGUIdiffSettings1](img/Cap1_3-20_SourcetreeGUIdiffSettings1.png)
+
+「Diff」というタブを選択します。\
+画面下部に「外部 Diff / マージ」という欄がありますね。\
+この「外部 Diff ツール」に、先ほどインストールした WinMerge を指定します。
+
+![SourcetreeGUIdiffSettings2](img/Cap1_3-21_SourcetreeGUIdiffSettings2.png)
+
+「Diffコマンド」には `WinMergeU.exe` がある場所をフルパスで指定します。\
+引数には `\"$LOCAL\" \"$REMOTE\"` を指定します。
+
+WinMergeをデフォルト設定でインストールしたなら、おそらく「Diffコマンド」と「引数」は自動的に入力してくれます。
+
+Sourcetree の設定は以上です。\
+[5.1.3. WinMerge で差分を見てみよう](#513-WinMerge-で差分を見てみよう)まで飛びましょう。
+
+#### 5.1.2 CLI の設定
+
+CLI で操作する場合も、外部 diff ツールを設定してあげれば WinMerge を利用できます。
+
+Git の設定を変更するときは `git config --edit` コマンドを使います。\
+今後、新しいリポジトリを作ったときのことも考えて、 `git config --global --edit` と指定しましょう。 `--global` オプションで指定した設定は、各リポジトリで個別に設定を上書きしない限り、デフォルトで適用されます。
+
+`git config --global --edit` を叩くと、 `.gitconfig` というファイルが開きます。なにやら色々な設定項目が並んでいるのが見えます。\
+**下手にいじると Git が正常に動かなくなります。**\
+以下の設定内容をファイルの末尾へ追記するだけにしておきましょう。
+
+```vim
+[difftool "WinMerge"]
+        cmd = "WinMergeU.exeのフルパス" \"$LOCAL\" \"$REMOTE\"
+```
+
+※ 筆者の環境だと `cmd = "C:/Program Files (x86)/WinMerge/WinMergeU.exe" \"$LOCAL\" \"$REMOTE\"` です
+
+設定が終わったら、以下のコマンドを叩くことで WinMerge を使えるようになります。
+
+`git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>`
+
+ちょっとした裏技として「いま編集しているファイル」と「最新のコミット」との差分を比較したいときは、コミットIDを書くところに `@~` と書くことができます。
+
+`git difftool --tool=WinMerge @~`
+
+最後に。\
+何度も `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` と叩くのは、ぶっちゃけ面倒です。\
+例えば `git diffwm <古いコミットID> <新しいコミットID>` とできたらいいな、と思いませんか？
+
+**できます**。
+
+「エイリアス（alias）」というショートカットのようなものを設定してあげればいいのです。\
+エイリアスを設定するためには `.gitconfig` ファイルを設定します。
+
+`git config --global --edit`
+
+```vim
+[alias]
+        diffwm = difftool --tool=WinMerge
+```
+
+と追記しましょう。\
+もし既になにかエイリアスが設定されていたら `[alias]` の直下に\
+`diffwm = difftool --tool=WinMerge` \
+を書くだけでOKです。
+
+これは\
+「`diffwm`」という文字の塊は「`diffwm = difftool --tool=WinMerge`」に置き換えるよ。\
+という意味です。
+
+エイリアスは便利ですが、うっかり「Git のデフォルトに設定されているコマンド」を置き換えてしまう可能性もあります。\
+エイリアスの設定は慎重に行いましょう。
+
+#### 5.1.3. WinMerge で差分を見てみよう
+
+それでは、実際に WinMerge を利用した差分比較をやってみましょう！\
+
+Sourcetree を利用している人は
+まずは差分比較したいファイルを選びます。\
+Ctrl キーを押しながら2つのコミットを選ぶと、直前のコミットでなくてもファイルの差分を比較できます。
+
+![CommitChoice](img/Cap1_3-22_CommitChoice.png)
+
+比較したいファイルを選んで「外部 Diff」をクリックすると、 WinMerge が起動します。
+
+CLI で操作する人は、先ほども述べたように `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` でファイルの差分を比較できます。
+
+実行してみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline
+cdf0aa5 (HEAD -> master, origin/master, origin/HEAD) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 Initial commit
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git difftool --tool=WinMerge b579 a6f7
+
+Viewing (1/1): 'StoryText.txt'
+Launch 'WinMerge' [Y/n]? y
+```
+
+今回は「一人称で書き直すことにした」というターニングポイントだったコミットに含まれるテキストと、しばらく書き進めたあとのコミットに含まれるテキストを比較してみました。
+
+![WinMerge1](img/Cap1_3-23_WinMerge1.png)
+
+**見づらい**。
+
+フォントはお好みのものに変えましょう。\
+ツールバー -> 表示 -> フォントの選択 でフォントを変えられます。\
+参考までに、筆者は「[Rounded-L Mgen+ 1m](http://jikasei.me/font/rounded-mgenplus/)」というフォントを色々な環境で使っています。
+
+![WinMerge2](img/Cap1_3-24_WinMerge2.png)
+
+**右端で折り返されてない**。
+
+ツールバー -> 表示 -> 行を右端で折り返す で折り返せます。
+
+![WinMerge3](img/Cap1_3-25_WinMerge3.png)
+
+さて、どうでしょう。
+
+![WinMerge4](img/Cap1_3-26_WinMerge4.png)
+
+おお、良い感じですね。
+
+左側に表示されているのが古いテキスト、右側に表示されているのが新しいテキストです。
+
+背景が真っ白な部分は「何も変更されていない部分」です。\
+オレンジ色でハイライトされた行は「何かの変更がかかった行」です。\
+ピンク色でハイライトされた箇所は「文章が挿入された箇所」です。\
+薄黄色でハイライトされた箇所は「文章が変更された箇所」です。
+
+これで「差分比較機能が弱いから…」という理由で Git を導入しない理由がなくなりましたね！\
+外部ツールを「設定」してあげるだけで、こんなに便利になります。
+
+※コンフリクト時のマージ作業も WinMerge を利用して実行できますが、今回は扱いません。
 
 ### 5.2. Mac OS X 向けに何か
 
