@@ -263,6 +263,129 @@ A. [ガベージコレクション](#72-git-のガベージコレクション)�
 あまりに `--amend` で書き換えまくると、変更履歴が残る、という Git の利便性が失われてしまいます。\
 誤字脱字等のごく軽微な修正や、コミットメッセージの修正くらいにとどめましょう。
 
+### 3.2 リモートにプッシュしようとしたらエラー出た
+
+既にリモートリポジトリへプッシュしているコミットを `--amend` で置き換えてしまうと、再度プッシュするときエラーになります。\
+前回「コミットと同時にプッシュという操作はしないほうがいい」と解説した理由のひとつが、このエラーを事前に回避するためです。
+
+具体的にはこんなエラーです。
+
+![PushError](img/Cap1_3-9_PushError.png)
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git push
+To https://github.com/ktkraoichi/FaultofTheDrakeEquation.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/ktkraoichi/FaultofTheDrakeEquation.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+長い英語メッセージですね。\
+読むのも嫌になるかもしれませんが、重要なのはこの一行です。
+
+> ! [rejected] master -> master (non-fast-forward)
+
+Git の「fast-forward」というのは「今いるコミットから、新しい履歴が先に伸びている状態になっている」という意味です。
+
+そしてエラーメッセージの「non-fast-forward」は「fast-forwardではない」、つまり「今いるコミットから先に伸びている状態ではない」ということです。
+
+Sourcetree で操作している人は樹形図をよく見てください。
+
+![CommitLog](img/Cap1_3-10_CommitLog.png)
+
+CLI 操作の人は `git log --oneline` だけだとちょっとわかりづらいので、さらに `--graph` というオプションと `--all` というオプションを付けましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline --all --graph
+* 4dbab1f (HEAD -> master) 朝ご飯を作って食べるシーン
+| * f93a844 (origin/master, origin/HEAD) 朝ご飯を作って食べるシーン
+|/
+* a6f7fda リチャードがディアァを口説くシーン
+* d602f63 出会い -> 移動
+* 4f493c1 師弟ズの出会いを書いた
+* b57992b 全部書き直し。一人称で書くことにした。
+* 92196f4 序盤の表現をちまちま修正
+* 47f42c2 会話と描写を追記。今後の展開をメモした。
+* d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+* cae2f6f 書き出し。ファーストコンタクト。
+* 42c4396 Initial commit
+```
+
+**分岐していますね**。\
+これが「non-fast-forward」です。
+
+プッシュ（`git push`）は「ローカルリポジトリに存在する**履歴の同期**」という操作です。\
+ローカルリポジトリの履歴をリモートリポジトリにコピーして、**ローカルとリモートを同じ状態にする**、と表現してもいいでしょう。
+
+分岐している状態を同期すると、リモートの履歴が一部失われてしまいます。\
+リモートリポジトリは本来、他の誰かと共有するための場所です。\
+リモートの履歴が失われると、他の誰かとバージョンを共有する意味がなくなりますね。\
+なので「ダメ」と拒否しているわけです。
+
+解決策はいくつかありますが、現在の運用であれば強制的にプッシュしてしまうのが手っ取り早いでしょう。
+
+Sourcetree の場合、（賢明なことに）デフォルトでは強制プッシュできないように設定してあります。
+
+![DeniedPush-f](img/Cap1_3-11_DeniedForcePush.png)
+
+強制プッシュできるようにするためには、ツールバーから\
+ツール -> オプション\
+を選び、次のような設定画面を出します。
+
+![SourcetreeSettings](img/Cap1_3-12_SourcetreeSettings.png)
+
+「強制プッシュを有効にする」と「安全な強制プッシュを使用する」の両方にチェックを入れてください。\
+設定画面を閉じ、プッシュボタンを押すと…
+
+![AllowedForcePush](img/Cap1_3-13_AllowedForcePush.png)
+
+強制プッシュできるようになっています。\
+プッシュしようとすると…
+
+![AreYouOkey?](img/Cap1_3-14_RUOK.png)
+
+警告が表示されます。\
+リモートに存在するコミットがたどれなくなる＝破壊的な操作をする\
+ということです。\
+本当によいのなら「はい」を押しましょう。\
+プッシュが始まり、だいたいなにごともなく完了します。\
+Sourcetree の樹形図で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
+CLI 操作の人は `git push --force-with-lease` で強制プッシュします。\
+CLI 操作の場合、 `--force-with-lease` オプションを付けても**特に警告などは出ません**。\
+もう一度言います。\
+`git push --force-with-lease` に限らず、 CLI 操作の場合、基本的に**事前の警告は期待できません**。
+
+`--force-with-lease` オプションを明示的に付けている時点で\
+「オッケー、操作の意味は分かってるってことだよな」\
+というわけです。
+
+だいたいなにごともなく完了します。\
+`git log --oneline --all --graph` で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
+最後に。\
+強制プッシュ（`git push --force-with-lease`）は「履歴のバックアップを書き換える」という**かなり危険な操作**です。\
+※オペレーションとして最適解な場合もあります
+
+したがって、なるべく強制プッシュをしないで済むように気をつけてください。\
+具体的には、プッシュ（`git push`）する前に微修正すべきことがないかどうか確認する、あるいはプッシュしたコミットは決して上書きしない、などの「自分ルール」を作りましょう。
+
+ローカルにおける履歴の書き換えは、やらないにこしたことはありませんが、まだやり直しがききます。\
+ですが、リモートの書き換えまでやるとなると、おおごとです。\
+その書き換えが本当に必要かどうか、よく考えてから実行しましょう。
+
+1. コミットした後に誤字を見つけた
+2. その誤字は `--amend` で書き換えずにほうっておき、プッシュする
+3. せっかくなので、ここまで書いた原稿に対して誤字脱字チェックをかける
+4. 誤字脱字チェックをかけた内容を新しいコミットにする
+
+のように、発想を切り替えてみるのもいいでしょう。
+
 ## 4. 過去のコミットからファイルを取り出す
 
 fixme: restore について解説します
