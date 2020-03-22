@@ -324,16 +324,37 @@ CLI で操作する場合も、外部 diff ツールを設定してあげれば 
 Git の設定を変更するときは `git config --edit` コマンドを使います。\
 今後、新しいリポジトリを作ったときのことも考えて、 `git config --global --edit` と指定しましょう。 `--global` オプションで指定した設定は、各リポジトリで個別に設定を上書きしない限り、デフォルトで適用されます。
 
-`git config --global --edit` を叩くと、 `.gitconfig` というファイルが開きます。なにやら色々な設定項目が並んでいるのが見えます。\
+`git config --global --edit` を叩くと、 `.gitconfig` というファイルが開かれます。\
+こんな感じで、なにやら色々な設定項目が並んでいるのが見えます。
+
+```
+[alias]
+	diffwm = difftool --tool=WinMerge -y -d
+	graph = log --oneline --graph --decorate --all
+[core]
+	autocrlf = false
+	quatepath = false
+	editor = VIM
+	safecrlf = true
+	ignoreCase = false
+[user]
+	name = ktkraoichi
+	email = ktkrao1@gmail.com
+[difftool "WinMerge"]
+	cmd = 'C:/Program Files (x86)/WinMerge/WinMergeU.exe' -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"
+```
+
 **下手にいじると Git が正常に動かなくなります。**\
 以下の設定内容をファイルの末尾へ追記するだけにしておきましょう。
 
 ```vim
 [difftool "WinMerge"]
-        cmd = "WinMergeU.exeのフルパス" \"$LOCAL\" \"$REMOTE\"
+	cmd = 'WinMergeU.exeのフルパス' -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"
 ```
 
-※ 筆者の環境だと `cmd = "C:/Program Files (x86)/WinMerge/WinMergeU.exe" \"$LOCAL\" \"$REMOTE\"` です
+※ 筆者の環境だと `cmd = "C:/Program Files (x86)/WinMerge/WinMergeU.exe" -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"` です
+
+※インデントはスペースではなくタブ1つです。手で打ち込むよりコピペした方がいいでしょう。
 
 設定が終わったら、以下のコマンドを叩くことで WinMerge を使えるようになります。
 
@@ -354,18 +375,20 @@ Git の設定を変更するときは `git config --edit` コマンドを使い�
 
 `git config --global --edit`
 
-```vim
-[alias]
-        diffwm = difftool --tool=WinMerge
 ```
+[alias]
+	diffwm = difftool --tool=WinMerge -d
+```
+
+※インデントはスペースではなくタブ1つです。手で打ち込むよりコピペした方がいいでしょう。
 
 と追記しましょう。\
 もし既になにかエイリアスが設定されていたら `[alias]` の直下に\
-`diffwm = difftool --tool=WinMerge` \
+`diffwm = difftool --tool=WinMerge -d`\
 を書くだけでOKです。
 
 これは\
-「`diffwm`」という文字の塊は「`diffwm = difftool --tool=WinMerge`」に置き換えるよ。\
+「`diffwm`」という文字の塊は「`diffwm = difftool --tool=WinMerge -d`」に置き換えるよ。\
 という意味です。
 
 エイリアスは便利ですが、うっかり「Git のデフォルトに設定されているコマンド」を置き換えてしまう可能性もあります。\
@@ -383,7 +406,7 @@ Ctrl キーを押しながら2つのコミットを選ぶと、直前のコミ�
 
 比較したいファイルを選んで「外部 Diff」をクリックすると、 WinMerge が起動します。
 
-CLI で操作する人は、先ほども述べたように `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` でファイルの差分を比較できます。
+CLI で操作する人は、先ほども述べたように `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` でフォルダの差分を比較できます。
 
 実行してみましょう。
 
@@ -410,12 +433,17 @@ cae2f6f 書き出し。ファーストコンタクト。
 
 Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
 $ git difftool --tool=WinMerge b579 a6f7
-
-Viewing (1/1): 'StoryText.txt'
-Launch 'WinMerge' [Y/n]? y
 ```
 
 今回は「一人称で書き直すことにした」というターニングポイントだったコミットに含まれるテキストと、しばらく書き進めたあとのコミットに含まれるテキストを比較してみました。
+
+CLI で操作している人は、ここで比較したいファイルを選ぶ画面が出てきます。
+
+![WinMergeFromCLI](img/Cap1_3-27_WinMergeFromCLI.png)
+
+Story.txt を選びます。
+
+差分比較の画面が出てきますが…
 
 ![WinMerge1](img/Cap1_3-23_WinMerge1.png)
 
