@@ -15,7 +15,8 @@
 1. コミットってなに？
 2. コミットを書き換えたことにする
 3. 過去のコミットからファイルを取り出す
-4. 便利な比較差分ツールの紹介
+4. 編集中の内容やステージを取り消す
+5. 便利な比較差分ツールの紹介
 
 今回はちょっとしたお勉強と、使えるようになると捗る Tips の紹介です。\
 Tips はけっこうな頻度で使うので、実際に手を動かして覚えてくださいね。
@@ -197,6 +198,8 @@ cae2f6f 書き出し。ファーストコンタクト。
 ```
 
 先頭にあるコミットの ID が変わっていることを確認できましたか？\
+`--amend` で変更した内容はちゃんと反映されていますか？
+
 確認できたなら、素晴らしい。
 
 ### 3.1. 「書き換えたことにできる」ってなにさ
@@ -386,9 +389,376 @@ CLI 操作の場合、 `--force-with-lease` オプションを付けても**特�
 
 のように、発想を切り替えてみるのもいいでしょう。
 
-## 4. 過去のコミットからファイルを取り出す
+## 4. 過去のコミットを復元する
 
-fixme: restore について解説します
+過去の原稿ファイルを掘り出したくなるとき、ありますよね。\
+ごっそり削った文章を再利用したり、あるいはファイルごと消し去ったものを読み返したくなったり。
+
+そんなときでも大丈夫。\
+Git でコミットを積んでおけば、過去のコミットを復元できます。\
+つまり好きなセーブデータの状態に戻せる、ということです。
+
+なお、 Soucetree と CLI では、操作の名前が違います。\
+というのも、記事執筆時点での Sourcetree (Ver. 3.3.6) が、どうやら Git の最新バージョンで追加された機能に対応できていないみたいなのです。[^3]
+[^3]:具体的には 2.23.0 から使えるようになった `git restore` と `git switch` に対応できていないようです。
+
+では、CLI 操作の人は次まで飛んでください。\
+[4.2. CLI で過去のコミットを復元する](#42-cli-で過去のコミットを復元する)
+
+### 4.1 Sourcetree で過去のコミットを復元する
+
+Sourcetree で操作している人は、復元したいコミットに対して「チェックアウト」すると、そのコミットの内容を Git 管理下のフォルダに書き出すことができます。
+
+まずは Sourcetree の樹形図にて「コミットされていない変更があります」というメッセージが**無い**ことを確認してください。\
+コミットしていない変更があると、 Sourcetree ではチェックアウトできません。エラーになります。\
+もし上記のメッセージがあったら、とりあえずローカルにコミットしてください。さっき覚えた `Amend` を使って、後からちゃんとしたコミットに置き換えればいいのです。
+
+次に、復元したいコミットを選択して右クリックします。
+
+![CheckoutWithSourcetree](img/Cap1_3-17_CheckoutWithSourcetree.png)
+
+「チェックアウト」を選びます。デフォルト設定なら、コミットをダブルクリックすることでもチェックアウトが働きます。
+
+![WarnOfCheckout](img/Cap1_3-18_WarnOfCheckout.png)
+
+警告が表示されます。\
+いまのところは気にしなくて大丈夫です。\
+そのうち解説する「ブランチ」の操作をするようになると、注意する必要があります。\
+「OK」ボタンを押して、チェックアウトしましょう。
+
+![AfterCheckout](img/Cap1_3-19_AfterCheckout.png)
+
+目的のコミットに HEAD というラベルが付いていれば、チェックアウトは完了です。\
+Git 管理下のフォルダに、コミットの内容が書き出されています。\
+樹形図の右上にある「Explorer」ボタンからローカルリポジトリを開いて、実際に過去のコミット（セーブデータ）になっていることを確認してみましょう。
+
+確認できましたか？
+
+確認できたら、最新のコミットにチェックアウトし直してください。\
+必要であれば、古いセーブデータの中に含まれていたファイルを別のフォルダへ退避させておいてください。\
+最新のコミットへチェックアウトし直すと、残しておきたいファイルがあったとしてもチェックアウトしたコミットの状態に戻ってしまうからです。
+
+**ブランチ**の操作を行うことで、古いセーブデータの内容を反映した新しいコミットを作ることもできますが、今回は扱いません。\
+最新の状態にチェックアウトしたあと、退避させておいた古いファイルの内容を反映してコミットを作るといいでしょう。[^4]
+[^4]: `git restore` 使えって話なんですが、 Sourcetree に `git restore` に相当する操作が見当たりません。教えてください偉い人。
+
+それでは、 [5. 編集中の内容やステージを取り消す](#5-編集中の内容やステージを取り消す)まで飛んでください。
+
+### 4.2. CLI で過去のコミットを復元する
+
+CLI 操作で操作する場合、チェックアウト（`git checkout`）は使いません。\
+`git checkout` というコマンドが持っていた機能は、2019年8月16日から `git switch` と `git restore` に分割されました。[^5]
+[^5]:実際のところ初学者が `checkout` という字面からあれらの機能を想像するのは難しい…
+
+`git checkout` を使うこともできますが、せっかくなので `git switch` と `git restore` を覚えましょう。\
+ここで覚えるのは `git switch` です。
+
+CLI で過去のコミットを復元するときは `git switch -d <コミット ID>` というコマンドを使います。\
+これは「現在の作業領域に対して、指定したコミットの内容を書き出す」というものです。
+
+まずは、いまの作業領域において変更されたファイルが**無い**ことを確認してください。
+
+覚えていますか？ `git status` ですよ。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   StoryText.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+もし上記のようなメッセージがあったら、とりあえずローカルにコミットしてください。さっき覚えた `git commit --amend` を使って、後からちゃんとしたコミットに置き換えればいいのです。
+
+コミットしていない変更がある状態で `git switch -d <コミット ID>` と叩くと、以下のようなエラーが表示されます。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git switch -d 9219
+error: Your local changes to the following files would be overwritten by checkout:
+        StoryText.txt
+Please commit your changes or stash them before you switch branches.
+Aborting
+```
+
+ちゃんとコミットしましょう。
+
+変更内容をちゃんとコミットしたら、次にどのコミットを復元するのか確認しましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline
+4dbab1f (HEAD -> master) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 Initial commit
+```
+
+ここでは「全部書き直し。一人称で書くことにした」というコミットの直前、 92196f4 のコミットを復元してみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+```
+
+nothing to commit, working tree clean\
+なら復元できます。 `git switch -d <コミット ID>` を叩いてみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git switch -d 9219
+HEAD is now at 92196f4 序盤の表現をちまちま修正
+```
+
+`HEAD is now at <コミット ID> コミットメッセージ` という表示が出ます。\
+これは「Git が今見ているコミットは <コミット ID> ですよ」という意味です。
+
+実際にどうなっているのか `git log --oneline` で確認してみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation ((92196f4...))
+$ git log --oneline
+92196f4 (HEAD) 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 Initial commit
+```
+
+…おや？　92196f4 より新しいコミットが見えませんね。\
+ご安心を。見えないだけでコミットが消えたわけではありません。
+
+`git log --oneline --all` と打ってみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation ((92196f4...))
+$ git log --oneline --all
+cdf0aa5 (origin/master, origin/HEAD, master) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 (HEAD) 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 Initial commit
+```
+
+ちゃんと最新のコミットを含めて表示することができます。\
+今見ているコミットは (HEAD) が付いているコミットです。
+
+`git log` は「今見ているコミットからたどれるコミットを表示する」というコマンドです。\
+`--all` というオプションを付けることで、 Git がたどれる全てのコミットを表示できます。
+
+普段、 HEAD は最新のコミットにくっついています[^6]。
+[^6]:厳密には今いるブランチの最新コミットですが、現在は master ブランチしか使っていないのでこういう表現にしています
+
+`git switch -d` で「Git が今見ているコミット」を変更すると、 HEAD が指定したコミットに移動します。
+
+それでは実際に、過去のコミット（セーブデータ）になっていることを確認してみましょう。\
+ファイルエクスプローラからファイルを開いてもいいでしょう。\
+せっかく CLI で操作しているのですから、\
+`$ エディタ ファイルパス`\
+と指定してファイルを開いてもいいでしょう。
+
+確認できましたか？
+
+「別のコミットを指定してたわ」というときは、頑張って探しましょう。\
+目的のファイルを探す時はコミットメッセージが役に立ちます。意味のあるコミットメッセージを書きましょうね。
+
+それらしいコミットの内容を簡易的に表示するなら `git show <コミット ID>` を叩くといいでしょう。
+
+古いコミットの内容を確認できたら、最新のコミットに戻しましょう。
+
+最新のコミットへ戻すためには `git switch master` と入力します。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation ((92196f4...))
+$ git switch master
+Previous HEAD position was 92196f4 序盤の表現をちまちま修正
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$
+```
+
+「なぜ `コミット ID` ではなく `master` なのか」という点については、まだ**ブランチ**の解説をしていないので詳しく述べることができません。
+
+今のところは
+
+- 過去のコミットは `git switch -d <コミット ID>` で復元できる
+- `git switch master` で最新の状態に戻す
+
+とだけ覚えてください。
+
+必要であれば、古いセーブデータの中に含まれていたファイルを別のフォルダへ退避させておいてください。\
+最新のコミットへチェックアウトし直すと、残しておきたいファイルがあったとしてもチェックアウトしたコミットの状態に戻ってしまうからです。
+
+**ブランチ**の操作を行うことで、古いセーブデータの内容を反映した新しいコミットを作ることもできますが、今回は扱いません。\
+最新の状態にチェックアウトしたあと、退避させておいた古いファイルの内容を反映し、改めてコミットを作るといいでしょう。
+
+## 5. 編集中の内容やステージを取り消す
+
+- ファイルをステージした（`git add` した）後に修正点が見つかった。
+- まだコミットしていないけど、執筆内容が気に入らないから破棄したい。
+
+ということは、わりとよくあります。
+
+Sourcetree なら画面をぽちぽちしていけば、上記の内容はわりと難しくありません。
+
+CLI なら `git restore` の使い方を覚えましょう。\
+大丈夫、そんなに難しい操作ではありません。\
+忘れたらこの記事をまた読みに来てください。
+
+### 5.1. コミットしていない編集内容を取り消す
+
+コミットしていない編集内容を取り消す、ということは\
+「Git が今見ているコミットの状態に戻す」\
+ということです。
+
+Sourcetree で操作している人は、最新のコミットを指定して「チェックアウト」することで、「Git が今見ているコミットの状態に戻す」ことができます。[^7]
+[^7]:`git reset --hard` でも同じ結果が得られますが、 `git restore` に合わせています。
+
+下図のように「コミットされていない変更があります」という状態で、最新のコミットを選択して右クリックします。
+
+![CheckoutFromHEAD](img/Cap1_3-20_CheckoutFromHEAD.png)
+
+チェックアウトをクリックします。\
+ダイアログが現れ…
+
+![DoYouClean](img/Cap1_3-21_DoYouClean.png)
+
+クリーン（全ての変更を破棄）にチェックを入れて、OKボタンを押します。
+
+![AfterChekoutFromHEAD](img/Cap1_3-22_AfterChekoutFromHEAD.png)
+
+これで、コミットしていない編集内容を取り消すことができます。
+
+CLI で操作している人は `git restore --worktree <ファイルパス>` で、指定したファイルを「Git が今見ているコミットの状態に戻す」ことができます。\
+全てのファイルを戻したいなら、 .git フォルダがある場所で `git restore --worktree .` と叩けば、全てのフォルダとファイルが元通りになります。
+
+サンプルは以下。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   StoryText.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git diff
+diff --git a/StoryText.txt b/StoryText.txt
+index 8e2cc57..d8399b5 100644
+--- a/StoryText.txt
++++ b/StoryText.txt
+@@ -1,3 +1,5 @@
++ほげ
++
+ 　船外活動の疲れから寝こけていたところを、大音量かつ不快な音の警報で叩き起こされました。驚いた手足がむやみに暴れてベッドから転がり落ちました。警報というのは当事者の頬をひっぱたくためのものですから、よく仕事をしたと褒めてあげたいところです。もちろん皮肉です。
+ 　開けた視界には全体が照明となっている天井。普段は暖色系の色合いに設定しているのですが、現在はわーにんわーにんと叫ぶ警報に同期して、真っ赤に明滅しています。
+ 　飛び起きざま、左手を耳に当てて師匠へ呼びかけました。
+
+```
+
+`git diff` で、編集中のファイルと最新のコミットを比較できます。\
+サンプルでは単に「ほげ」とだけ追記していることが分かります。\
+こんなくだらない追記は捨ててしまいましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git restore --worktree .
+```
+
+`--worktree` の直後に `<ファイルパス>` か `.` （ドット）を指定しましょうね。\
+でないと以下のように怒られますよ。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git restore --worktree
+fatal: you must specify path(s) to restore
+```
+
+さて、編集内容が破棄されているかどうか、実際にファイルを開いて目視で確認することもできます。\
+ですが、せっかく Git を使っているのなら `git status` でサクッと確認してしまいましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+```
+
+nothing to commit, working tree clean\
+と表示されていれば、ファイルの編集が破棄され、最新のコミットまで戻ったことは間違いありません。\
+スマート。
+
+### 5.2. ステージを取り消す
+
+ファイルを一度ステージ（`git add`）した後、ファイルをさらに編集したとしましょう。\
+このとき、ステージしたファイルの内容と、さらに編集したファイルの内容は別のものと見なされます。\
+コミットに含まれるのは、あくまで「ステージしたファイルの内容」です。
+
+ステージした後、さらに編集した内容をコミットに含めるなら、明示的にステージを取り消す操作が必要です。
+
+Sourcetree で操作している人は「**Index にステージしたファイル**」の欄を見てください。
+
+「**作業ツリーのファイル**」欄に表示されているファイルを選び、「選択をインデックスから除く」ボタンをクリックすればステージを取り消せます。\
+全てのファイルのステージを取り消すなら「全てインデックスから除く」ボタンをクリックすれば一発です。
+
+![SourcetreeUnstage](img/Cap1_3-30_UnstageSourcetree.png)
+
+CLI 操作の人は
+
+`git restore --staged <ファイルやフォルダのパス>`
+
+とすれば、指定したファイルのステージを取り消すことができます。\
+フォルダを指定すれば、そのフォルダ以下のステージが全て取り消されます。
+
+全てのファイルのステージを取り消すなら、 .git フォルダがある場所で
+
+`git restore --staged .`
+
+とすれば、全てのファイルのステージを取り消すことができます。\
+`.` （ドット）を忘れないでくださいね。
+
+フォルダやファイルのパスを指定してあげないと…
+
+```bash
+$ git restore --staged 
+fatal: you must specify path(s) to restore
+```
+
+「パスを指定しなさい」\
+と怒られます。
+
+ステージ（`git add`）するべき編集内容があるなら、ステージを取り消した後に改めて（`git add`）しましょう。
 
 ## 5. 便利な差分比較ツールの紹介
 
