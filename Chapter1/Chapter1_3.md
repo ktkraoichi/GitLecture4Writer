@@ -547,7 +547,7 @@ error: pathspec 'Memorandum/20200112.md' did not match any file(s) known to git
 
 Sourcetree なら画面をぽちぽちしていけば、上記の内容はわりと難しくありません。
 
-CLI なら `git restore` と `git stash` の使い方を覚えましょう。\
+CLI なら `git restore` の使い方を覚えましょう。\
 大丈夫、そんなに難しい操作ではありません。\
 忘れたらこの記事をまた読みに来てください。
 
@@ -671,85 +671,6 @@ fatal: you must specify path(s) to restore
 と怒られます。
 
 ステージ（`git add`）しそこねた修正を終えたら、再びステージ（`git add`）しましょう。
-
-### 5.3. 一時的に編集内容を取り消す
-
-「編集している内容は保持しておきたいけれど、編集前の内容は確認したい」\
-というときには、スタッシュ（`git stash`）が便利です。\
-スタッシュは、コミットしていない内容を「仮のコミット」として退避させておき、 Git が今見ているコミットの状態に戻すコマンドです。\
-退避させた変更内容は必要に応じて元に戻す（`git stash pop`）ことができます。
-
-Sourcetree で操作している場合は「スタッシュ」というボタンを利用します。\
-CLI 操作の場合は `git stash` というコマンドを使います。\
-それぞれ、使い方を解説します。
-
-Sourcetree の場合は「**コミットされていない変更があります**」と表示されているとき、「スタッシュ」ボタンが有効になります。
-
-fixme: スタッシュの一連の操作
-
-CLI 操作の場合は `git stash` というコマンドで、現在の編集内容を「仮のコミット」として退避させられます。
-
-```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git status
-On branch master
-Your branch is up to date with 'origin/master'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   StoryText.txt
-
-no changes added to commit (use "git add" and/or "git commit -a")
-
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git stash
-Saved working directory and index state WIP on master: cdf0aa5 朝ご飯を作って食べるシーン
-```
-
-`git stash` でどんな内容を退避させているか調べるときは `git stash list` と打つことで、退避させた内容の一覧を見られます。
-
-```bash
-$ git stash list
-stash@{0}: WIP on master: cdf0aa5 朝ご飯を作って食べるシーン
-stash@{1}: WIP on master: cdf0aa5 朝ご飯を作って食べるシーン
-```
-
-これは2つスタッシュした状態です。\
-…どれがどれなのか全く分かりませんね。
-
-そんなときは `git stash save <スタッシュの内容>` としてあげることで、そのスタッシュがどんな内容なのかメモしておけます。
-
-```bash
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git stash save タイトルに英名を付けるほう
-Saved working directory and index state On master: タイトルに英名を付けるほう
-
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git stash save タイトルに英名を付けないほう
-Saved working directory and index state On master: タイトルに英名を付けないほう
-
-Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git stash list
-stash@{0}: On master: タイトルに英名を付けるほう
-stash@{1}: On master: タイトルに英名を付けないほう
-```
-
-`git stash` で退避させた内容は `git stash pop` で取り出せます。\
-単純に `git stash pop` と入力した場合、**最後にスタッシュした内容が取り出されます**。\
-最初にスタッシュした内容ではありません。\
-詳しい仕組みは「スタック」とか「後入れ先出し」とかでググってください。
-
-いくつかスタッシュしていて、特定の内容を取り出したいときは\
-`git stash pop stash@{<番号>}`\
-とすることで、指定した番号に保管してある内容を取り出せます。
-
-最後に。\
-スタッシュ（`git stash`）は便利ですが、**あくまで一時的な退避です**。\
-何も考えずにスタッシュへぽいぽい投げていると、スタッシュした内容のうち、どれを適用すればいいのか分からなくなります。\
-つまり、バージョン管理ツールの運用としては失敗です。
-
-スタッシュした内容はなるべく早めに戻して（`git stash pop`）、スタッシュには仮のコミットを溜め込まないようにしてください。
 
 ## 5. 便利な差分比較ツールの紹介
 
