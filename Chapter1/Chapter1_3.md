@@ -106,7 +106,8 @@ Git においては、今いるコミットさえわかれば、過去のコミ�
 という、よくあるミスを修正したところです。\
 こういった「新しいコミットを作るほどでもないけれど、修正はしたい」というときに使えるのが「`--amend`」というオプション操作です。
 
-Sourcetree で操作している人は「コミット」ボタンをクリックして、いつものコミットメッセージを入力する画面に移りましょう。\
+Sourcetree で操作している人はいつものように変更したファイルを「全てインデックスに追加」しましょう。\
+インデックスに追加したら「コミット」ボタンをクリックして、いつものコミットメッセージを入力する画面に移りましょう。\
 コミットメッセージを入力する画面の右端に、こんなプルダウンメニューがあります。
 
 ![Amend1](img/Cap1_3-1_Amend1.png)
@@ -246,7 +247,7 @@ Git は `--amend` で新しく作成したコミットを、今いるコミッ�
 さて、 **Git は今いるコミットしか見ていない** という話を覚えていますか？\
 過去のコミットは芋づる式にたどることができるので、 Git は今いるコミットしか見ていません。
 
-つまり、 `-- amend` オプションで今いるコミットを置き換えると、元々あったコミットは原理的にたどることができなくなります。\
+つまり、 `--amend` オプションで今いるコミットを置き換えると、元々あったコミットは原理的にたどることができなくなります。\
 図を見返してみましょう。
 
 ![AmendImage](img/Cap1_3-6_AmendImage.png)
@@ -264,6 +265,129 @@ A. [ガベージコレクション](#72-git-のガベージコレクション)�
 `--amend` オプションを利用した修正は、いわば「セーブデータの上書き」です。\
 あまりに `--amend` で書き換えまくると、変更履歴が残る、という Git の利便性が失われてしまいます。\
 誤字脱字等のごく軽微な修正や、コミットメッセージの修正くらいにとどめましょう。
+
+### 3.2 リモートにプッシュしようとしたらエラー出た
+
+既にリモートリポジトリへプッシュしているコミットを `--amend` で置き換えてしまうと、再度プッシュするときエラーになります。\
+前回「コミットと同時にプッシュという操作はしないほうがいい」と解説した理由のひとつが、このエラーを事前に回避するためです。
+
+具体的にはこんなエラーです。
+
+![PushError](img/Cap1_3-9_PushError.png)
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git push
+To https://github.com/ktkraoichi/FaultofTheDrakeEquation.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/ktkraoichi/FaultofTheDrakeEquation.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+長い英語メッセージですね。\
+読むのも嫌になるかもしれませんが、重要なのはこの一行です。
+
+> ! [rejected] master -> master (non-fast-forward)
+
+Git の「fast-forward」というのは「今いるコミットから、新しい履歴が先に伸びている状態になっている」という意味です。
+
+そしてエラーメッセージの「non-fast-forward」は「fast-forwardではない」、つまり「今いるコミットから先に伸びている状態ではない」ということです。
+
+Sourcetree で操作している人は樹形図をよく見てください。
+
+![CommitLog](img/Cap1_3-10_CommitLog.png)
+
+CLI 操作の人は `git log --oneline` だけだとちょっとわかりづらいので、さらに `--graph` というオプションと `--all` というオプションを付けましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline --all --graph
+* 4dbab1f (HEAD -> master) 朝ご飯を作って食べるシーン
+| * f93a844 (origin/master, origin/HEAD) 朝ご飯を作って食べるシーン
+|/
+* a6f7fda リチャードがディアァを口説くシーン
+* d602f63 出会い -> 移動
+* 4f493c1 師弟ズの出会いを書いた
+* b57992b 全部書き直し。一人称で書くことにした。
+* 92196f4 序盤の表現をちまちま修正
+* 47f42c2 会話と描写を追記。今後の展開をメモした。
+* d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+* cae2f6f 書き出し。ファーストコンタクト。
+* 42c4396 Initial commit
+```
+
+**分岐していますね**。\
+これが「non-fast-forward」です。
+
+プッシュ（`git push`）は「ローカルリポジトリに存在する**履歴の同期**」という操作です。\
+ローカルリポジトリの履歴をリモートリポジトリにコピーして、**ローカルとリモートを同じ状態にする**、と表現してもいいでしょう。
+
+分岐している状態を同期すると、リモートの履歴が一部失われてしまいます。\
+リモートリポジトリは本来、他の誰かと共有するための場所です。\
+リモートの履歴が失われると、他の誰かとバージョンを共有する意味がなくなりますね。\
+なので「ダメ」と拒否しているわけです。
+
+解決策はいくつかありますが、現在の運用であれば強制的にプッシュしてしまうのが手っ取り早いでしょう。
+
+Sourcetree の場合、（賢明なことに）デフォルトでは強制プッシュできないように設定してあります。
+
+![DeniedPush-f](img/Cap1_3-11_DeniedForcePush.png)
+
+強制プッシュできるようにするためには、ツールバーから\
+ツール -> オプション\
+を選び、次のような設定画面を出します。
+
+![SourcetreeSettings](img/Cap1_3-12_SourcetreeSettings.png)
+
+「強制プッシュを有効にする」と「安全な強制プッシュを使用する」の両方にチェックを入れてください。\
+設定画面を閉じ、プッシュボタンを押すと…
+
+![AllowedForcePush](img/Cap1_3-13_AllowedForcePush.png)
+
+強制プッシュできるようになっています。\
+プッシュしようとすると…
+
+![AreYouOkey?](img/Cap1_3-14_RUOK.png)
+
+警告が表示されます。\
+リモートに存在するコミットがたどれなくなる＝破壊的な操作をする\
+ということです。\
+本当によいのなら「はい」を押しましょう。\
+プッシュが始まり、だいたいなにごともなく完了します。\
+Sourcetree の樹形図で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
+CLI 操作の人は `git push --force-with-lease` で強制プッシュします。\
+CLI 操作の場合、 `--force-with-lease` オプションを付けても**特に警告などは出ません**。\
+もう一度言います。\
+`git push --force-with-lease` に限らず、 CLI 操作の場合、基本的に**事前の警告は期待できません**。
+
+`--force-with-lease` オプションを明示的に付けている時点で\
+「オッケー、操作の意味は分かってるってことだよな」\
+というわけです。
+
+だいたいなにごともなく完了します。\
+`git log --oneline --all --graph` で、ローカルの master ラベルとリモートの origin/master ラベルが同じコミットに付いていることを確認してください。
+
+最後に。\
+強制プッシュ（`git push --force-with-lease`）は「履歴のバックアップを書き換える」という**かなり危険な操作**です。\
+※オペレーションとして最適解な場合もあります
+
+したがって、なるべく強制プッシュをしないで済むように気をつけてください。\
+具体的には、プッシュ（`git push`）する前に微修正すべきことがないかどうか確認する、あるいはプッシュしたコミットは決して上書きしない、などの「自分ルール」を作りましょう。
+
+ローカルにおける履歴の書き換えは、やらないにこしたことはありませんが、まだやり直しがききます。\
+ですが、リモートの書き換えまでやるとなると、おおごとです。\
+その書き換えが本当に必要かどうか、よく考えてから実行しましょう。
+
+1. コミットした後に誤字を見つけた
+2. その誤字は `--amend` で書き換えずにほうっておき、プッシュする
+3. せっかくなので、ここまで書いた原稿に対して誤字脱字チェックをかける
+4. 誤字脱字チェックをかけた内容を新しいコミットにする
+
+のように、発想を切り替えてみるのもいいでしょう。
 
 ## 4. 過去のコミットを復元する
 
@@ -656,7 +780,7 @@ A. 便利な差分比較ツールを使えばいい
 
 環境が Windows なら、おそらく [WinMerge](https://winmerge.org/?lang=ja) が現時点で最強のツールでしょう（異議は認めるのでコメント欄へどうぞ）。
 
-fixme: WinMerge の使用感について、スクショを貼るなりして解説
+#### 5.1.1. Sourcetree の設定
 
 Sourcetree では「外部 Diff ツール」を設定してあげることで、 WinMerge を利用した差分比較ができます。
 
@@ -666,11 +790,214 @@ fixme: 実際にDiffを見る方法を書く（`Ctrl + D` でも起動できる�
 
 CLI では Git の設定を変更することで、 WinMerge を利用した差分比較ができます。
 
-fixme: WinMerge の設定方法を書く
+WinMerge のインストールについては割愛します。\
+以下のリンクを参考に、インストールしてください。
 
-### 5.2. Mac OS X 向けに何か
+- [ダウンロード](https://winmerge.org/downloads/?lang=ja)
+- [オンラインマニュアル（日本語版）](https://manual.winmerge.org/jp/)
 
-fixme: 何か
+インストールは終わりましたか？
+
+Sourcetree を使っている人は ツールバー -> ツール -> オプション を開いてください。
+
+![SourcetreeGUIdiffSettings1](img/Cap1_3-20_SourcetreeGUIdiffSettings1.png)
+
+「Diff」というタブを選択します。\
+画面下部に「外部 Diff / マージ」という欄がありますね。\
+この「外部 Diff ツール」に、先ほどインストールした WinMerge を指定します。
+
+![SourcetreeGUIdiffSettings2](img/Cap1_3-21_SourcetreeGUIdiffSettings2.png)
+
+「Diffコマンド」には `WinMergeU.exe` がある場所をフルパスで指定します。\
+引数には `\"$LOCAL\" \"$REMOTE\"` を指定します。
+
+WinMergeをデフォルト設定でインストールしたなら、おそらく「Diffコマンド」と「引数」は自動的に入力してくれます。
+
+Sourcetree の設定は以上です。\
+[5.1.3. WinMerge で差分を見てみよう](#513-WinMerge-で差分を見てみよう)まで飛びましょう。
+
+#### 5.1.2 CLI の設定
+
+CLI で操作する場合も、外部 diff ツールを設定してあげれば WinMerge を利用できます。
+
+Git の設定を変更するときは `git config --edit` コマンドを使います。\
+今後、新しいリポジトリを作ったときのことも考えて、 `git config --global --edit` と指定しましょう。 `--global` オプションで指定した設定は、各リポジトリで個別に設定を上書きしない限り、デフォルトで適用されます。
+
+`git config --global --edit` を叩くと、 `.gitconfig` というファイルが開かれます。\
+こんな感じで、なにやら色々な設定項目が並んでいるのが見えます。
+
+```
+[alias]
+	diffwm = difftool --tool=WinMerge -y -d
+	graph = log --oneline --graph --decorate --all
+[core]
+	autocrlf = false
+	quatepath = false
+	editor = VIM
+	safecrlf = true
+	ignoreCase = false
+[user]
+	name = ktkraoichi
+	email = ktkrao1@gmail.com
+[difftool "WinMerge"]
+	cmd = 'C:/Program Files (x86)/WinMerge/WinMergeU.exe' -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"
+```
+
+**下手にいじると Git が正常に動かなくなります。**\
+以下の設定内容をファイルの末尾へ追記するだけにしておきましょう。
+
+```vim
+[difftool "WinMerge"]
+	cmd = 'WinMergeU.exeのフルパス' -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"
+```
+
+※ 筆者の環境だと `cmd = "C:/Program Files (x86)/WinMerge/WinMergeU.exe" -f \"*.*\" -e -u -r \"$LOCAL\" \"$REMOTE\"` です
+
+※インデントはスペースではなくタブ1つです。手で打ち込むよりコピペした方がいいでしょう。
+
+設定が終わったら、以下のコマンドを叩くことで WinMerge を使えるようになります。
+
+`git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>`
+
+ちょっとした裏技として「いま編集しているファイル」と「最新のコミット」との差分を比較したいときは、コミットIDを書くところに `@~` と書くことができます。
+
+`git difftool --tool=WinMerge @~`
+
+最後に。\
+何度も `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` と叩くのは、ぶっちゃけ面倒です。\
+例えば `git diffwm <古いコミットID> <新しいコミットID>` とできたらいいな、と思いませんか？
+
+**できます**。
+
+「エイリアス（alias）」というショートカットのようなものを設定してあげればいいのです。\
+エイリアスを設定するためには `.gitconfig` ファイルを設定します。
+
+`git config --global --edit`
+
+```
+[alias]
+	diffwm = difftool --tool=WinMerge -d
+```
+
+※インデントはスペースではなくタブ1つです。手で打ち込むよりコピペした方がいいでしょう。
+
+と追記しましょう。\
+もし既になにかエイリアスが設定されていたら `[alias]` の直下に\
+`diffwm = difftool --tool=WinMerge -d`\
+を書くだけでOKです。
+
+これは\
+「`diffwm`」という文字の塊は「`diffwm = difftool --tool=WinMerge -d`」に置き換えるよ。\
+という意味です。
+
+エイリアスは便利ですが、うっかり「Git のデフォルトに設定されているコマンド」を置き換えてしまう可能性もあります。\
+エイリアスの設定は慎重に行いましょう。
+
+#### 5.1.3. WinMerge で差分を見てみよう
+
+それでは、実際に WinMerge を利用した差分比較をやってみましょう！\
+
+Sourcetree を利用している人は
+まずは差分比較したいファイルを選びます。\
+Ctrl キーを押しながら2つのコミットを選ぶと、直前のコミットでなくてもファイルの差分を比較できます。
+
+![CommitChoice](img/Cap1_3-22_CommitChoice.png)
+
+比較したいファイルを選んで「外部 Diff」をクリックすると、 WinMerge が起動します。
+
+CLI で操作する人は、先ほども述べたように `git difftool --tool=WinMerge <古いコミットID> <新しいコミットID>` でフォルダの差分を比較できます。
+
+実行してみましょう。
+
+```bash
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git log --oneline
+cdf0aa5 (HEAD -> master, origin/master, origin/HEAD) 朝ご飯を作って食べるシーン
+a6f7fda リチャードがディアァを口説くシーン
+d602f63 出会い -> 移動
+4f493c1 師弟ズの出会いを書いた
+b57992b 全部書き直し。一人称で書くことにした。
+92196f4 序盤の表現をちまちま修正
+47f42c2 会話と描写を追記。今後の展開をメモした。
+d234cf7 有機ポリシランを生成することにした。他、動作や描写を追加。
+cae2f6f 書き出し。ファーストコンタクト。
+42c4396 Initial commit
+
+Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
+$ git difftool --tool=WinMerge b579 a6f7
+```
+
+今回は「一人称で書き直すことにした」というターニングポイントだったコミットに含まれるテキストと、しばらく書き進めたあとのコミットに含まれるテキストを比較してみました。
+
+CLI で操作している人は、ここで比較したいファイルを選ぶ画面が出てきます。
+
+![WinMergeFromCLI](img/Cap1_3-27_WinMergeFromCLI.png)
+
+Story.txt を選びます。
+
+差分比較の画面が出てきますが…
+
+![WinMerge1](img/Cap1_3-23_WinMerge1.png)
+
+**見づらい**。
+
+フォントはお好みのものに変えましょう。\
+ツールバー -> 表示 -> フォントの選択 でフォントを変えられます。\
+参考までに、筆者は「[Rounded-L Mgen+ 1m](http://jikasei.me/font/rounded-mgenplus/)」というフォントを色々な環境で使っています。
+
+![WinMerge2](img/Cap1_3-24_WinMerge2.png)
+
+**右端で折り返されてない**。
+
+ツールバー -> 表示 -> 行を右端で折り返す で折り返せます。
+
+![WinMerge3](img/Cap1_3-25_WinMerge3.png)
+
+さて、どうでしょう。
+
+![WinMerge4](img/Cap1_3-26_WinMerge4.png)
+
+おお、良い感じですね。
+
+左側に表示されているのが古いテキスト、右側に表示されているのが新しいテキストです。
+
+背景が真っ白な部分は「何も変更されていない部分」です。\
+オレンジ色でハイライトされた行は「何かの変更がかかった行」です。\
+ピンク色でハイライトされた箇所は「文章が挿入された箇所」です。\
+薄黄色でハイライトされた箇所は「文章が変更された箇所」です。
+
+これで「差分比較機能が弱いから…」という理由で Git を導入しない理由がなくなりましたね！\
+外部ツールを「設定」してあげるだけで、こんなに便利になります。
+
+※コンフリクト時のマージ作業も WinMerge を利用して実行できますが、今回は扱いません。
+
+### 5.2. Kaleidoscope
+
+macOS および iOS 向けに [Kaleidoscope](https://www.kaleidoscopeapp.com/) というオシャレな差分比較ツールがあります。
+
+
+![Kaleidoscope](img/Cap1_3-28_Kaleidoscope.png)
+
+見てください、このモダン感。\
+WinMerge と同じくらい強力に差分を比較できるようです。\
+日本語の文章でもどんとこい、みたいです。
+
+と、凄くイイ感じなのですが…
+
+- 高価なので気軽にはオススメできない
+- そもそも筆者が macOS 環境持ってない
+
+ので、確信を持って言えることがあまり多くありません。すみません。\
+（スクショは使ってる人から送ってもらいました）
+
+他に、 Mac 向けで良い感じの差分比較ツールがありましたら、コメント欄か [Twitter](https://twitter.com/KanbaraKasa) で教えてください。
 
 ## 6. 次回予告
 
@@ -697,8 +1024,25 @@ fixme: 次回どうしましょうね
 Git のガベージコレクション（GC）とは、 Git 内部の自動お掃除ロボットです。\
 参照されなくなったコミットやファイルを、適当なタイミングで破棄してくれます。
 
-逆に言えば、 `git commit --amend` などで参照されなくなったコミットやファイルも、 GC でお掃除されていなければ救出できます。\
-おおむね数ヶ月は GC によるお掃除の対象にならないので、あまりに古いコミットでなければ基本的に救出できます。
+逆に言えば、 `git commit --amend` などで存在しないことになったコミットやファイルも、 GC でお掃除されていなければ救出できます。\
+おおむね数ヶ月は GC によるお掃除の対象にならないので、あまりに古いコミットやファイルでなければ何とかなります。
 
-うっかり `git reset --hard` しても、 `git reflog` で救出できます。\
-とはいえ、うっかり `git reset --hard` しないことのほうが大事ですが。
+### 7.3 設定ファイルを変更したら Git 動かんくなった…
+
+あるある（あるべきではない）。
+
+Windowsなら\
+`C:\Users\ユーザ名\.gitconfig`\
+が共通設定（`--global`）の設定ファイルです。
+
+macOS ならホームディレクトリに `.gitconfig` が置かれているはずです。
+
+まずは変更した場所をいったん削除して、 Git の挙動を確認してください。\
+ちゃんと動くことを確認したら、何が問題だったのか調べましょう。
+
+よくハマるポイントとしては\
+**インデントはスペースではなくタブ**です。
+
+あとは書き方が間違っていたり、色々あるので割愛します。\
+15分調べて分からなかったら、分かる人に聞きましょう。\
+片倉に聞いてくれれば（分かる範囲で）お答えします。
