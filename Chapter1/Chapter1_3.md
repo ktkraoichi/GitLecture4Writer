@@ -771,7 +771,7 @@ A. 便利な差分比較ツールを使えばいい
 
 一度設定してしまえばいいので、新しい操作を覚える必要はありません。
 
-### 6.1. WinMerge
+### 6.1. WinMerge（Windows 向け）
 
 環境が Windows なら、おそらく [WinMerge](https://winmerge.org/?lang=ja) が現時点で最強のツールでしょう（異議は認めるのでコメント欄へどうぞ）。
 
@@ -969,7 +969,7 @@ Story.txt を選びます。
 
 ※コンフリクト時のマージ作業も WinMerge を利用して実行できますが、今回は扱いません。
 
-### 6.2. Kaleidoscope
+### 6.2. Kaleidoscope（macOS および iOS 向け）
 
 macOS および iOS 向けに [Kaleidoscope](https://www.kaleidoscopeapp.com/) というオシャレな差分比較ツールがあります。
 
