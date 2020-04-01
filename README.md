@@ -15,8 +15,8 @@
   - [この Repo](Chapter1/Chapter1_2.md)
   - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/1c60e7eba1ec9c570518)
 - 1-3「コミットの修正や差分比較ツール」
-  - このRepo : 3月初旬。コミット積んどいてください。
-  - Qiita 掲載判 : 3月初旬。コミット積んどいてください。
+  - [このRepo](Chapter1/Chapter1_3.md)
+  - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/270ff4d89bfe9e278a12)
 
 ## ライセンス的ななにか
 
