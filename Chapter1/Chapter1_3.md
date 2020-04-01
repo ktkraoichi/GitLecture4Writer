@@ -159,7 +159,7 @@ Changes to be committed:
         modified:   StoryText.txt
 ```
 
-ファイルが変更されていることを確認したら `add` します。\
+ファイルが変更されていることを確認したら `add` します。
 
 ```bash
 Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
@@ -751,7 +751,7 @@ CLI 操作の人は
 フォルダやファイルのパスを指定してあげないと…
 
 ```bash
-$ git restore --staged 
+$ git restore --staged
 fatal: you must specify path(s) to restore
 ```
 
@@ -826,7 +826,7 @@ Git の設定を変更するときは `git config --edit` コマンドを使い�
 `git config --global --edit` を叩くと、 `.gitconfig` というファイルが開かれます。\
 こんな感じで、なにやら色々な設定項目が並んでいるのが見えます。
 
-```
+```vim
 [alias]
 	diffwm = difftool --tool=WinMerge -y -d
 	graph = log --oneline --graph --decorate --all
@@ -871,7 +871,7 @@ Git の設定を変更するときは `git config --edit` コマンドを使い�
 
 `git config --global --edit`
 
-```
+```vim
 [alias]
 	diffwm = difftool --tool=WinMerge -d
 ```
@@ -890,7 +890,7 @@ Git の設定を変更するときは `git config --edit` コマンドを使い�
 
 #### 6.1.3. WinMerge で差分を見てみよう
 
-それでは、実際に WinMerge を利用した差分比較をやってみましょう！\
+それでは、実際に WinMerge を利用した差分比較をやってみましょう！
 
 Sourcetree を利用している人は
 まずは差分比較したいファイルを選びます。\
@@ -976,7 +976,6 @@ Story.txt を選びます。
 ### 6.2. Kaleidoscope
 
 macOS および iOS 向けに [Kaleidoscope](https://www.kaleidoscopeapp.com/) というオシャレな差分比較ツールがあります。
-
 
 ![Kaleidoscope](img/Cap1_3-28_Kaleidoscope.png)
 
