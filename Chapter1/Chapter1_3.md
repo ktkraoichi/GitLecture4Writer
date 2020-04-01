@@ -931,7 +931,7 @@ CLI で操作している人は、ここで比較したいファイルを選ぶ�
 
 ![WinMergeFromCLI](img/Cap1_3-27_WinMergeFromCLI.png)
 
-Story.txt を選びます。
+StoryText.txt を選びます。
 
 差分比較の画面が出てきますが…
 
