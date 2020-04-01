@@ -14,7 +14,7 @@
 - 1-2 「コミットを積み上げる」
   - [この Repo](Chapter1/Chapter1_2.md)
   - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/1c60e7eba1ec9c570518)
-- 1-3「コミットの修正や差分比較ツール」
+- 1-3「コミットを理解して活用する」
   - [このRepo](Chapter1/Chapter1_3.md)
   - [Qiita 掲載版](https://qiita.com/ktkraoichi/items/270ff4d89bfe9e278a12)
 
