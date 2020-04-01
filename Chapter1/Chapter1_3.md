@@ -700,7 +700,7 @@ $ git restore .
 
 ```bash
 Ktkr@KtkrPC MINGW64 ~/Documents/FaultofTheDrakeEquation (master)
-$ git restore --worktree
+$ git restore
 fatal: you must specify path(s) to restore
 ```
 
